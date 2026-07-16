@@ -1,0 +1,49 @@
+﻿@inject NavigationManager Navigation
+@inject IDialogService DialogService
+
+@page "/playground"
+
+<MudContainer
+    MaxWidth="MaxWidth.ExtraExtraLarge"
+    Gutters="false"
+    Class="d-flex flex-column justify-start align-start mud-height-full pa-6"
+>
+    <MudButton
+        OnClick="@(() => Navigation.NavigateTo("/playground?dialog=test"))"
+        Variant="Variant.Outlined"
+    >
+        Open simple dialog
+    </MudButton>
+</MudContainer>
+
+@code {
+    [SupplyParameterFromQuery]
+    public string? Dialog { get; set; }
+
+    private string? _openedDialog;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Dialog is null)
+        {
+            _openedDialog = null;
+            return;
+        }
+
+        if (Dialog == _openedDialog) return;
+        _openedDialog = Dialog;
+
+        IDialogReference? dialogReference = Dialog switch
+        {
+            "test" => await DialogService.ShowAsync<TestDialog>("Test"),
+            // "notifications" => await DialogService.ShowAsync<TestDialog>("Notifications"),
+            _ => null
+        };
+
+        if (dialogReference is null)return;
+        await dialogReference.Result;
+        _openedDialog = null;
+
+        Navigation.NavigateTo("/playground", replace: true);
+    }
+}

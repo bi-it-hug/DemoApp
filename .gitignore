@@ -1,0 +1,67 @@
+## .NET
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.rsuser
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Visual Studio
+.vs/
+*.sln.docstates
+*.dbmdl
+*.jfm
+*.pfx
+*.publishsettings
+PublishScripts/
+
+## Rider / JetBrains
+.idea/
+*.sln.iml
+
+## VS Code (keep shared settings; ignore local)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## Secrets / local env
+*.local.json
+appsettings.*.local.json
+.env
+.env.*
+!.env.example
+
+## NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+## Test / coverage
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.coverage
+*.coveragexml
+coverage/
+
+## Misc
+*.log
+*.tmp
+*.temp
+*.cache
+*.swp
+*~

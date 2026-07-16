@@ -1,0 +1,19 @@
+﻿<MudDialog Class="no-shadow border">
+    <TitleContent>
+        This is a random ass Dialog
+    </TitleContent>
+    @* <DialogContent>
+        Dialog Content
+    </DialogContent> *@
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Outlined" OnClick="Submit">OK</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    private void Cancel() => MudDialog.Cancel();
+}

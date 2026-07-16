@@ -1,0 +1,39 @@
+@page "/not-found"
+@layout Layout.NotFoundLayout
+
+<PageTitle>Not Found</PageTitle>
+
+<MudStack
+    Spacing="0"
+    Class="mud-width-full mud-height-full"
+>
+    <MudStack
+        Justify="Justify.Center"
+        AlignItems="AlignItems.Center"
+        Class="mud-height-full"
+    >
+        <MudText
+            Typo="Typo.h3"
+            Align="Align.Center"
+            Class="mud-width-full"
+        >
+            404 - Page Not Found
+        </MudText>
+
+        <MudText
+            Align="Align.Center"
+            Class="mb-3 mud-width-full"
+        >
+            Sorry, the content you are looking for does not exist.
+        </MudText>
+
+        <MudButton
+            Href="/"
+            Variant="Variant.Filled"
+            Style="width: fit-content"
+            DropShadow="false"
+        >
+            Go to Home
+        </MudButton>
+    </MudStack>
+</MudStack>

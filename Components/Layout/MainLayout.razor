@@ -1,0 +1,240 @@
+﻿@inherits LayoutComponentBase
+@implements IDisposable
+
+@inject NotificationService Notifications
+@inject NavigationManager Navigation
+@inject AppStateService AppState
+@inject ISnackbar Snackbar
+
+<MudPopoverProvider />
+<MudSnackbarProvider />
+<MudDialogProvider />
+
+<MudThemeProvider
+    @ref="_themeProvider"
+    Theme="@_theme"
+    IsDarkMode="@_isDarkMode"
+    IsDarkModeChanged="OnIsDarkModeChanged"
+    ObserveSystemDarkModeChange="@ObserveSystemDarkMode"
+    DefaultScrollbar
+/>
+
+<style>
+    .border {
+        border: 1px solid var(--mud-palette-lines-default);
+    }
+
+    .no-shadow {
+        box-shadow: none !important;
+    }
+
+    .mud-menu-list {
+        padding: 0px !important;
+    }
+
+    .mud-menu-item .mud-icon-root {
+        width: 20px !important;
+    }
+
+    .mud-menu-item-text {
+        margin: 0 !important;
+    }
+</style>
+
+<MudLayout>
+    @if (!AppState.IsInitialized)
+    {
+        <MudProgressCircular Indeterminate="true" />
+    }
+    else
+
+    {
+        <MudAppBar>
+            <SidebarToggle />
+
+            <MudBreadcrumbs Items="@_items">
+                <SeparatorTemplate>
+                    <MudIcon
+                        Icon="@Icons.Material.Rounded.ChevronRight"
+                        Size="Size.Small"
+                        Style="opacity: 50%"
+                    />
+                </SeparatorTemplate>
+            </MudBreadcrumbs>
+
+            <MudSpacer />
+
+            <MudStack
+                Justify="Justify.Center"
+                AlignItems="AlignItems.Center"
+                Row
+            >
+                <MudButton
+                    Variant="Variant.Outlined"
+                    OnClick="@HandleClick"
+                >
+                    Notification Test
+                </MudButton>
+                <NotificationMenu />
+                <ThemeSwitch />
+            </MudStack>
+        </MudAppBar>
+
+        <MudDrawer
+            Open="@AppState.Settings.IsDrawerOpen"
+            OpenChanged="@AppState.SetDrawerOpenAsync"
+            Variant="DrawerVariant.Mini"
+            ClipMode="DrawerClipMode.Never"
+            Breakpoint="Breakpoint.Sm"
+        >
+            <MudNavMenu
+                Margin="Margin.Dense"
+                Class="pa-2 d-flex flex-column"
+                Rounded
+            >
+                <CascadingValue Value="CurrentPage">
+                    <TooltipNavLink
+                        Href=""
+                        Match="NavLinkMatch.All"
+                        Icon="@Icons.Material.Rounded.Dashboard"
+                    >
+                        Dashboard
+                    </TooltipNavLink>
+
+                    <TooltipNavLink
+                        Href="playground"
+                        Match="NavLinkMatch.Prefix"
+                        Icon="@Icons.Material.Rounded.Architecture"
+                    >
+                        Playground
+                    </TooltipNavLink>
+
+                    <TooltipNavLink
+                        Href="not-found"
+                        Match="NavLinkMatch.Prefix"
+                        Icon="@Icons.Material.Rounded.Error"
+                    >
+                        Not Found
+                    </TooltipNavLink>
+                </CascadingValue>
+            </MudNavMenu>
+        </MudDrawer>
+
+        <MudMainContent
+            Class="d-flex justify-center align-center mud-height-full"
+            Style="background-color: var(--mud-palette-appbar-background)"
+        >
+            <MudContainer
+                MaxWidth="MaxWidth.ExtraExtraLarge"
+                Gutters="false"
+                Class="mud-height-full"
+                Style="
+                    border-left: 1px solid var(--mud-palette-lines-default);
+                    border-top: 1px solid var(--mud-palette-lines-default);
+                    border-top-left-radius: var(--mud-default-borderradius);
+                    background-color: var(--mud-palette-background);
+                "
+            >
+                @Body
+            </MudContainer>
+        </MudMainContent>
+    }
+</MudLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+    @code {
+    private readonly MudTheme _theme = Theme.Create();
+    private MudThemeProvider _themeProvider = default!;
+    private bool _isDarkMode;
+    private string CurrentPage = "";
+    private List<BreadcrumbItem> _items = [];
+
+    public async Task HandleClick()
+    {
+        Notification TestNotification = new(
+            "playground?dialog=test",
+            "Lorem FFFFFFFFFFFFFF dolor sit amet",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            Severity.Success
+        );
+
+        Snackbar.Add(TestNotification.Title, TestNotification.Severity);
+        await Notifications.AddAsync(TestNotification);
+    }
+
+    private bool ObserveSystemDarkMode =>
+        AppState.Settings.ThemeMode == ThemeMode.System;
+
+    protected override void OnInitialized()
+    {
+        AppState.Changed += OnStateChanged;
+        Navigation.LocationChanged += OnLocationChanged;
+        UpdateBreadcrumbs(Navigation.Uri);
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        UpdateBreadcrumbs(e.Location);
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private void UpdateBreadcrumbs(string uri)
+    {
+        var relativePath = Navigation.ToBaseRelativePath(uri);
+
+        CurrentPage = string.IsNullOrWhiteSpace(relativePath)
+            ? "Dashboard"
+            : StringUtilities.ToTitleCase(relativePath);
+
+        _items =
+        [
+            new BreadcrumbItem("Demo App", href: relativePath),
+            new BreadcrumbItem(CurrentPage, href: relativePath),
+            // new BreadcrumbItem("Link 1", href: "#")
+        ];
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await AppState.InitializeAsync();
+        await SyncDarkModeAsync();
+    }
+
+    private void OnIsDarkModeChanged(bool value)
+    {
+        if (!ObserveSystemDarkMode) return;
+        _isDarkMode = value;
+    }
+
+    private async Task SyncDarkModeAsync()
+    {
+        _isDarkMode = AppState.Settings.ThemeMode switch
+        {
+            ThemeMode.Dark => true,
+            ThemeMode.Light => false,
+            _ => await _themeProvider.GetSystemDarkModeAsync()
+        };
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void OnStateChanged()
+    {
+        _ = InvokeAsync(async () =>
+        {
+            await SyncDarkModeAsync();
+        });
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+        AppState.Changed -= OnStateChanged;
+    }
+}

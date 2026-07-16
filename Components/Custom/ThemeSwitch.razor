@@ -1,0 +1,60 @@
+﻿@inject AppStateService AppState
+
+@* Dropdown Menu *@
+<MudMenu
+    Icon="@CurrentIcon"
+    Size="Size.Small"
+    Variant="Variant.Outlined"
+    ActivationEvent="@MouseEvent.MouseOver"
+    TransformOrigin="Origin.TopRight"
+    AnchorOrigin="Origin.BottomRight"
+    PopoverClass="border mt-1"
+    Dense
+>
+    <MudMenuItem
+        Icon="@Icons.Material.Rounded.AutoMode"
+        Label="System"
+        OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.System))"
+    />
+    <MudMenuItem
+        Icon="@Icons.Material.Rounded.LightMode"
+        Label="Light"
+        OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.Light))"
+    />
+    <MudMenuItem
+        Icon="@Icons.Material.Rounded.DarkMode"
+        Label="Dark"
+        OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.Dark))"
+    />
+</MudMenu>
+
+@code {
+    private string CurrentIcon => AppState.Settings.ThemeMode switch
+    {
+        ThemeMode.Light => Icons.Material.Rounded.LightMode,
+        ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
+        _ => Icons.Material.Rounded.AutoMode
+    };
+}
+
+@* Simple Button *@
+@*
+<MudTooltip
+    Text="@($"Switch to {(AppState.Settings.IsDarkMode ? "Light" : "Dark")} Mode")"
+    Placement="Placement.Left"
+    Arrow
+>
+    <MudIconButton
+        Variant="Variant.Text"
+        Size="Size.Small"
+        Color="Color.Inherit"
+        OnClick="@AppState.ToggleDarkModeAsync"
+        DropShadow="false"
+        Icon="@(
+            AppState.Settings.IsDarkMode
+            ? Icons.Material.Rounded.LightMode
+            : Icons.Material.Rounded.DarkMode
+        )"
+    />
+</MudTooltip>
+*@

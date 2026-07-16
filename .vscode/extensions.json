@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "anysphere.csharp",
+    "jakubkozera.csharp-dev-tools"
+  ],
+  "unwantedRecommendations": [
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.dotnet-maui"
+  ]
+}

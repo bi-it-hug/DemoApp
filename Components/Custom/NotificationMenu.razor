@@ -1,0 +1,151 @@
+﻿@inject NotificationService Notifications
+@implements IDisposable
+
+<MudBadge
+    Origin="Origin.TopRight"
+    Content="@Notifications.Notifications.Count"
+    Visible="@(Notifications.IsInitialized && Notifications.Notifications.Count > 0)"
+    Color="Color.Error"
+    Bordered
+    Overlap
+>
+    <MudMenu
+        Icon="@Icons.Material.Rounded.Notifications"
+        Variant="Variant.Outlined"
+        Size="Size.Small"
+        AnchorOrigin="Origin.BottomRight"
+        TransformOrigin="Origin.TopRight"
+        MaxHeight="600"
+        PopoverClass="border mt-1"
+        Style="position: relative;"
+        Dense
+    >
+        <MudStack
+            Justify="Justify.SpaceBetween"
+            AlignItems="AlignItems.Center"
+            Class="pa-2 z-10 mud-width-full"
+            Style="
+                position: sticky;
+                top: 0;
+                background-color: var(--mud-palette-surface);
+                border-bottom: 1px solid var(--mud-palette-lines-default)
+            "
+            Row
+        >
+            <MudText
+                Typo="Typo.body1"
+                Class="ml-2"
+            >
+                Notifications
+            </MudText>
+
+            <MudTooltip
+                Text="Clear All"
+                Disabled="@IsEmpty"
+                Arrow
+            >
+                <MudIconButton
+                    Icon="@Icons.Material.Rounded.Check"
+                    Variant="Variant.Outlined"
+                    Size="Size.Small"
+                    OnClick="@Notifications.ClearAsync"
+                    Disabled="@IsEmpty"
+                />
+            </MudTooltip>
+        </MudStack>
+
+        @if (IsEmpty)
+        {
+            <MudStack
+                Spacing="1"
+                Justify="Justify.Center"
+                AlignItems="AlignItems.Center"
+                Class="pa-8"
+                Style="width: 300px;"
+            >
+                <MudPaper
+                    Class="d-flex pa-2 mb-2"
+                    Style="background-color: var(--mud-palette-action-disabled-background)"
+                >
+                    <MudIcon
+                        Icon="@Icons.Material.Rounded.NotificationsNone"
+                        Size="Size.Small"
+                    />
+                </MudPaper>
+
+                <MudText
+                    Typo="Typo.body1"
+                    Align="Align.Center"
+                    Class=""
+                >
+                    No notifications
+                </MudText>
+
+                <MudText
+                    Typo="Typo.body2"
+                    Align="Align.Center"
+                    Class="mud-text-disabled"
+                >
+                    You're all caught up. New notifications will appear here.
+                </MudText>
+            </MudStack>
+        }
+        else
+        {
+            <MudStack
+                Spacing="0"
+                Class="pa-2"
+            >
+                @for (var index = 0; index < Notifications.Notifications.Count; index++)
+                {
+                    var item = Notifications.Notifications[index];
+
+                    <NotificationItem
+                        Href="@item.Href"
+                        Title="@item.Title"
+                        Description="@item.Description"
+                        Severity="@item.Severity"
+                        OnRemove="@(() => Notifications.RemoveAsync(item.Id))"
+                    />
+
+                    @if (index < Notifications.Notifications.Count - 1)
+                    {
+                        <MudDivider Class="my-2" />
+                    }
+                }
+            </MudStack>
+        }
+    </MudMenu>
+</MudBadge>
+
+@code {
+    public bool IsEmpty { get; set; } = true;
+
+    protected override void OnInitialized()
+    {
+        Notifications.Changed += OnNotificationsChanged;
+        UpdateEmptyState();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await Notifications.InitializeAsync();
+    }
+
+    private void OnNotificationsChanged()
+    {
+        _ = InvokeAsync(StateHasChanged);
+        UpdateEmptyState();
+    }
+
+    public void Dispose()
+    {
+        Notifications.Changed -= OnNotificationsChanged;
+    }
+
+    public void UpdateEmptyState()
+    {
+        IsEmpty = Notifications.Notifications.Count == 0;
+    }
+}
