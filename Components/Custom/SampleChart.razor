@@ -1,0 +1,120 @@
+﻿<MudChart
+    ChartType="ChartType.Line"
+    ChartOptions="@_options"
+    ChartLabels="@_xAxisLabels"
+    ChartSeries="@_series"
+    Width="100%"
+    Height="100%"
+    MatchBoundsToSize
+    CanHideSeries
+    
+>
+    <TooltipTemplate Context="tooltip">
+        @{
+            var tooltipHeight = TooltipHeight;
+            var tooltipY = -tooltipHeight - 10;
+            var headerY = tooltipY + Padding + 12;
+            var rowY = headerY + HeaderHeight;
+        }
+
+        <g>
+            <rect
+                x="-70"
+                y="@tooltipY"
+                width="140"
+                height="@tooltipHeight"
+                rx="8"
+                fill="var(--mud-palette-background)"
+                style="filter: drop-shadow(0 4px 8px rgba(0,0,0,.25));"
+            />
+
+            <text
+                x="-58"
+                y="@headerY"
+                fill="var(--mud-palette-text-primary)"
+                font-size="12"
+                font-weight="600"
+            >
+                @tooltip.Segment.LabelXValue
+            </text>
+
+            <rect
+                x="-58"
+                y="@(rowY - 7)"
+                width="9"
+                height="9"
+                rx="2"
+                fill="@tooltip.Color"
+            />
+
+            <text
+                x="-43"
+                y="@(rowY + 2)"
+                fill="var(--mud-palette-text-disabled)"
+                font-size="11"
+            >
+                @_series[tooltip.Segment.Index].Name
+            </text>
+
+            <text
+                x="58"
+                y="@(rowY + 2)"
+                fill="var(--mud-palette-text-primary)"
+                font-size="11"
+                font-weight="600"
+                text-anchor="end"
+            >
+                @tooltip.Segment.LabelYValue
+            </text>
+        </g>
+    </TooltipTemplate>
+</MudChart>
+
+@code {
+    private const int Padding = 6;
+    private const int HeaderHeight = 18;
+    private const int RowHeight = 18;
+
+    private int TooltipHeight => Padding * 2 + HeaderHeight + RowHeight;
+
+    private string[] _xAxisLabels = [];
+    private List<ChartSeries<double>> _series = [];
+    private int _index = -1;
+
+    private LineChartOptions _options = new()
+    {
+        InterpolationOption = InterpolationOption.NaturalSpline,
+        ShowDataMarkers = true,
+        LineStrokeWidth = 2,
+        YAxisLines = true,
+    };
+
+    RawChartData _sampleChartData = new()
+    {
+        Labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        Datasets =
+        [
+            new()
+            {
+                Name = "Temperature",
+                Data = new double[] { 90, 79, 72, 69, 62, 62, 55, 65, 70, 90, 79, 72 },
+            },
+            new()
+            {
+                Name = "Humidity",
+                Data = new double[] { 10, 41, 35, 51, 49, 62, 69, 91, 148, 10, 41, 35 },
+            },
+        ]
+    };
+
+    protected override void OnInitialized()
+    {
+        _xAxisLabels = _sampleChartData.Labels;
+        _series = _sampleChartData.Datasets.Select(dataset => new ChartSeries<double>
+        {
+            Name = dataset.Name,
+            Data = dataset.Data,
+        })
+        .ToList();
+    }
+}

@@ -50,9 +50,12 @@
 
     {
         <MudAppBar>
-            <SidebarToggle />
+            @* <SidebarToggle /> *@
 
-            <MudBreadcrumbs Items="@_items">
+            <MudBreadcrumbs
+                Items="@_items"
+                Class="ml-n2"
+            >
                 <SeparatorTemplate>
                     <MudIcon
                         Icon="@Icons.Material.Rounded.ChevronRight"
@@ -86,10 +89,20 @@
             Variant="DrawerVariant.Mini"
             ClipMode="DrawerClipMode.Never"
             Breakpoint="Breakpoint.Sm"
+            Style="border-right: 1px solid var(--mud-palette-lines-default)"
         >
+            <MudStack
+                Justify="Justify.FlexStart"
+                AlignItems="AlignItems.Start"
+                Class="ml-6 mt-4"
+            >
+                <SidebarToggle />
+            </MudStack>
+
             <MudNavMenu
                 Margin="Margin.Dense"
-                Class="pa-2 d-flex flex-column"
+                Class="py-2 d-flex flex-column"
+                Style="margin-inline: 9px"
                 Rounded
             >
                 <CascadingValue Value="CurrentPage">
@@ -128,12 +141,7 @@
                 MaxWidth="MaxWidth.ExtraExtraLarge"
                 Gutters="false"
                 Class="mud-height-full"
-                Style="
-                    border-left: 1px solid var(--mud-palette-lines-default);
-                    border-top: 1px solid var(--mud-palette-lines-default);
-                    border-top-left-radius: var(--mud-default-borderradius);
-                    background-color: var(--mud-palette-background);
-                "
+                Style="background-color: var(--mud-palette-background)"
             >
                 @Body
             </MudContainer>

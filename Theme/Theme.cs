@@ -11,7 +11,7 @@ public static class Theme
         LayoutProperties = new LayoutProperties()
         {
             AppbarHeight = "58px",
-            DrawerMiniWidthLeft = "74px",
+            DrawerMiniWidthLeft = "75px",
             DefaultBorderRadius = "8px"
         },
 
@@ -47,7 +47,7 @@ public static class Theme
             DrawerBackground = Neutral._050,
             DrawerText = Neutral._700,
             DrawerIcon = Neutral._700,
-            AppbarBackground = Neutral._050,
+            AppbarBackground = Base.White,
             AppbarText = Neutral._700,
             LinesDefault = Neutral._200,
             LinesInputs = Neutral._200,
@@ -101,7 +101,7 @@ public static class Theme
             DrawerBackground = Neutral._900,
             DrawerText = Base.White,
             DrawerIcon = Base.White,
-            AppbarBackground = Neutral._900,
+            AppbarBackground = Neutral._950,
             AppbarText = Base.White,
             LinesDefault = Neutral._800,
             LinesInputs = Neutral._800,
