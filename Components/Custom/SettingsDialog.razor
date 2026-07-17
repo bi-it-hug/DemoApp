@@ -1,15 +1,17 @@
 ﻿<MudDialog
-    TitleClass="px-4 pt-4 pb-0 gap-2 d-flex justify-start align-center"
+    TitleClass="px-4 pt-4 pb-0 gap-2 d-flex flex-column justify-start align-center"
     ActionsClass="px-4 pb-4 pt-0"
     Class="no-shadow border mud-border-tertiary"
 >
     <TitleContent>
-        <MudIcon
-            Icon="@Icons.Material.Rounded.Info"
-            Size="Size.Small"
-        />
         <MudText Typo="Typo.body1">
-            This is a random ass Dialog
+            Settings
+        </MudText>
+        <MudText
+            Typo="Typo.subtitle2"
+            Class="mud-text-disabled"
+        >
+            Make changes to your liking here.
         </MudText>
     </TitleContent>
     @* <DialogContent>
@@ -17,7 +19,7 @@
     </DialogContent> *@
     <DialogActions>
         <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
-        <MudButton Variant="Variant.Outlined" OnClick="Submit">OK</MudButton>
+        <MudButton Variant="Variant.Outlined" OnClick="Submit">Save</MudButton>
     </DialogActions>
 </MudDialog>
 

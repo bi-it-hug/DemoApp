@@ -9,7 +9,6 @@
 <MudPopoverProvider />
 <MudSnackbarProvider />
 <MudDialogProvider />
-
 <MudThemeProvider
     @ref="_themeProvider"
     Theme="@_theme"
@@ -20,10 +19,6 @@
 />
 
 <style>
-    .border {
-        border: 1px solid var(--mud-palette-lines-default);
-    }
-
     .no-shadow {
         box-shadow: none !important;
     }
@@ -32,8 +27,9 @@
         padding: 0px !important;
     }
 
-    .mud-menu-item .mud-icon-root {
-        width: 20px !important;
+    .mud-icon-root.mud-svg-icon.mud-icon-size-medium.mud-menu-item-icon {
+        width: 16px !important;
+        margin-right: 6px !important;
     }
 
     .mud-menu-item-text {
@@ -89,12 +85,12 @@
             Variant="DrawerVariant.Mini"
             ClipMode="DrawerClipMode.Never"
             Breakpoint="Breakpoint.Sm"
-            Style="border-right: 1px solid var(--mud-palette-lines-default)"
+            Class="border-r mud-border-tertiary py-4"
         >
             <MudStack
                 Justify="Justify.FlexStart"
                 AlignItems="AlignItems.Start"
-                Class="ml-6 mt-4"
+                Class="ml-6"
             >
                 <SidebarToggle />
             </MudStack>
@@ -131,6 +127,26 @@
                     </TooltipNavLink>
                 </CascadingValue>
             </MudNavMenu>
+
+            <MudSpacer />
+
+            <MudStack
+                Justify="Justify.FlexStart"
+                AlignItems="AlignItems.Start"
+                Class="ml-6"
+            >
+                <MudTooltip
+                    Text="Settings"
+                    Placement="Placement.Right"
+                    Arrow
+                >
+                    <MudIconButton
+                        Icon="@Icons.Material.Rounded.Settings"
+                        Variant="Variant.Text"
+                        Size="Size.Small"
+                    />
+                </MudTooltip>
+            </MudStack>
         </MudDrawer>
 
         <MudMainContent
@@ -166,7 +182,7 @@
     {
         Notification TestNotification = new(
             "playground?dialog=test",
-            "Lorem FFFFFFFFFFFFFF dolor sit amet",
+            "Lorem ipsum dolor sit amet",
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             Severity.Success
         );

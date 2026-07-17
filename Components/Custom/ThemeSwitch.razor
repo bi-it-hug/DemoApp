@@ -1,5 +1,7 @@
 ﻿@inject AppStateService AppState
 
+
+@* USE BORDER COLORRRRRRRRRRR *@
 @* Dropdown Menu *@
 <MudMenu
     Icon="@CurrentIcon"
@@ -8,23 +10,26 @@
     ActivationEvent="@MouseEvent.MouseOver"
     TransformOrigin="Origin.TopRight"
     AnchorOrigin="Origin.BottomRight"
-    PopoverClass="border mt-1"
+    PopoverClass="border mud-border-tertiary mt-1 px-1"
     Dense
 >
     <MudMenuItem
         Icon="@Icons.Material.Rounded.AutoMode"
         Label="System"
         OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.System))"
+        Class="rounded px-2"
     />
     <MudMenuItem
         Icon="@Icons.Material.Rounded.LightMode"
         Label="Light"
         OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.Light))"
+        Class="rounded px-2"
     />
     <MudMenuItem
         Icon="@Icons.Material.Rounded.DarkMode"
         Label="Dark"
         OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.Dark))"
+        Class="rounded px-2"
     />
 </MudMenu>
 

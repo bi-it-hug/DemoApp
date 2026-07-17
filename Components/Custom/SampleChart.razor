@@ -7,7 +7,6 @@
     Height="100%"
     MatchBoundsToSize
     CanHideSeries
-    
 >
     <TooltipTemplate Context="tooltip">
         @{
@@ -87,6 +86,11 @@
         ShowDataMarkers = true,
         LineStrokeWidth = 2,
         YAxisLines = true,
+        ChartPalette =
+        [
+            Green._400,
+            Teal._400,
+        ]
     };
 
     RawChartData _sampleChartData = new()

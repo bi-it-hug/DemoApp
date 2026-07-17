@@ -23,7 +23,7 @@ public static class Theme
             PrimaryContrastText = Base.White,
             Secondary = Rose._500,
             SecondaryContrastText = Base.White,
-            Tertiary = Emerald._500,
+            Tertiary = Neutral._200,
             TertiaryContrastText = Base.White,
             Info = Sky._500,
             InfoContrastText = Base.White,
@@ -38,17 +38,17 @@ public static class Theme
             TextPrimary = Neutral._900,
             TextSecondary = Opacity(Base.Black, 0.6),
             TextDisabled = Opacity(Base.Black, 0.4),
-            ActionDefault = Neutral._700,
+            ActionDefault = Neutral._900,
             ActionDisabled = Opacity(Base.Black, 0.3),
             ActionDisabledBackground = Opacity(Base.Black, 0.07),
             Background = Base.White,
             BackgroundGray = Opacity(Base.Black, 0.05),
             Surface = Neutral._050,
             DrawerBackground = Neutral._050,
-            DrawerText = Neutral._700,
-            DrawerIcon = Neutral._700,
+            DrawerText = Neutral._900,
+            DrawerIcon = Neutral._900,
             AppbarBackground = Base.White,
-            AppbarText = Neutral._700,
+            AppbarText = Neutral._900,
             LinesDefault = Neutral._200,
             LinesInputs = Neutral._200,
             TableLines = Opacity(Base.Black, 0.05),
@@ -81,7 +81,7 @@ public static class Theme
             // GrayLight = Neutral._300,
             // GrayLighter = Neutral._200,
             // GrayDark = Neutral._500,
-            // GrayDarker = Neutral._700,
+             GrayDarker = Neutral._900,
             OverlayDark = Opacity(Neutral._800, 0.5),
             OverlayLight = Opacity(Base.White, 0.5)
         },
@@ -89,6 +89,7 @@ public static class Theme
         PaletteDark = new PaletteDark()
         {
             Primary = Blue._400,
+            Tertiary = Neutral._800,
             TextPrimary = Neutral._050,
             TextSecondary = Neutral._050,
             TextDisabled = Opacity(Base.White, 0.5),
@@ -116,11 +117,12 @@ public static class Theme
             BorderOpacity = 0.1,
             HoverOpacity = 0.06,
             RippleOpacity = 0.1,
-            //GrayDefault = Opacity(Base.White, 0.05),
-            // GrayLight = Neutral._300,
-            // GrayLighter = Neutral._200,
-            // GrayDark = Neutral._500,
-            // GrayDarker = Neutral._700,
+            GrayDefault = Opacity(Base.White, 0.05),
+            GrayLight = Neutral._300,
+            GrayLighter = Neutral._200,
+            GrayDark = Neutral._500,
+            GrayDarker = Neutral._050,
+            DarkContrastText = Neutral._900,
         },
 
         Typography = new Typography()
@@ -168,7 +170,7 @@ public static class Theme
             Body1 = new Body1Typography()
             {
                 FontSize = "16px",
-                LineHeight = "22px", // (1.5 / 1).ToString()
+                LineHeight = "20px", // 22px (1.5 / 1).ToString()
                 FontWeight = "400",
                 LetterSpacing = "0"
             },

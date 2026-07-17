@@ -16,24 +16,21 @@
         AnchorOrigin="Origin.BottomRight"
         TransformOrigin="Origin.TopRight"
         MaxHeight="600"
-        PopoverClass="border mt-1"
-        Style="position: relative;"
+        PopoverClass="border mud-border-tertiary mt-1"
         Dense
     >
         <MudStack
             Justify="Justify.SpaceBetween"
             AlignItems="AlignItems.Center"
-            Class="pa-2 z-10 mud-width-full"
+            Class="pa-1 z-10 mud-width-full sticky border-b mud-border-tertiary notification-header"
             Style="
-                position: sticky;
                 top: 0;
                 background-color: var(--mud-palette-surface);
-                border-bottom: 1px solid var(--mud-palette-lines-default)
             "
             Row
         >
             <MudText
-                Typo="Typo.body1"
+                Typo="Typo.body2"
                 Class="ml-2"
             >
                 Notifications
@@ -42,6 +39,7 @@
             <MudTooltip
                 Text="Clear All"
                 Disabled="@IsEmpty"
+                Placement="Placement.Left"
                 Arrow
             >
                 <MudIconButton
@@ -50,6 +48,7 @@
                     Size="Size.Small"
                     OnClick="@Notifications.ClearAsync"
                     Disabled="@IsEmpty"
+                    Class="pa-0"
                 />
             </MudTooltip>
         </MudStack>
@@ -94,7 +93,7 @@
         {
             <MudStack
                 Spacing="0"
-                Class="pa-2"
+                Class="pa-1"
             >
                 @for (var index = 0; index < Notifications.Notifications.Count; index++)
                 {
@@ -110,7 +109,7 @@
 
                     @if (index < Notifications.Notifications.Count - 1)
                     {
-                        <MudDivider Class="my-2" />
+                        <MudDivider Class="my-1" />
                     }
                 }
             </MudStack>

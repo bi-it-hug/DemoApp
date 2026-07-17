@@ -2,15 +2,13 @@
 
 <MudMenuItem
     OnClick="@(() => Navigation.NavigateTo(Href))"
-    Class="pa-2"
-    Style="border-radius: var(--mud-default-borderradius)"
+    Class="pa-2 rounded"
 >
     <MudStack Row>
         <MudIcon
             Size="Size.Small"
             Icon="@CurrentIcon"
             Color="@CurrentColor"
-            Style="margin-top: 1px"
         />
 
         <MudStack
@@ -34,18 +32,14 @@
             </MudText>
         </MudStack>
 
-        <MudStack>
-            <MudTooltip
-                Text="Clear"
-                Arrow
-            >
-                 <MudIconButton
-                    Size="Size.Small"
-                    Variant="Variant.Outlined"
-                    Icon="@Icons.Material.Rounded.Check"
-                    OnClick="OnRemove"
-                />    
-            </MudTooltip>
+        <MudStack Class="ml-auto">
+            <MudIconButton
+                Size="Size.Small"
+                Variant="Variant.Outlined"
+                Icon="@Icons.Material.Rounded.Check"
+                OnClick="OnRemove"
+                Class="pa-0"
+            />    
         </MudStack>
     </MudStack>
 </MudMenuItem>
