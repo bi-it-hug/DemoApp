@@ -1,7 +1,7 @@
-﻿@inject AppStateService AppState
+﻿@implements IDisposable
 
+@inject AppStateService AppState
 
-@* USE BORDER COLORRRRRRRRRRR *@
 @* Dropdown Menu *@
 <MudMenu
     Icon="@CurrentIcon"
@@ -10,7 +10,7 @@
     ActivationEvent="@MouseEvent.MouseOver"
     TransformOrigin="Origin.TopRight"
     AnchorOrigin="Origin.BottomRight"
-    PopoverClass="border mud-border-tertiary mt-1 px-1"
+    PopoverClass="border mud-border-tertiary mt-1 pa-1"
     Dense
 >
     <MudMenuItem
@@ -40,6 +40,21 @@
         ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
         _ => Icons.Material.Rounded.AutoMode
     };
+
+    protected override void OnInitialized()
+    {
+        AppState.Changed += OnAppStateChanged;
+    }
+
+    private void OnAppStateChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        AppState.Changed -= OnAppStateChanged;
+    }
 }
 
 @* Simple Button *@

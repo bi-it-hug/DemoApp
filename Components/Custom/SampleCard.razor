@@ -2,8 +2,8 @@
     Class="mud-width-full mud-height-full"
     Outlined
 >
-    <MudCardHeader>
-        <CardHeaderContent>
+    <MudCardHeader Class="flex-column align-start gap-1">
+        @* <CardHeaderContent> *@
             <MudText Typo="Typo.body1">
                 Card Title
             </MudText>
@@ -13,7 +13,7 @@
             >
                 Card Description
             </MudText>
-        </CardHeaderContent>
+        @* </CardHeaderContent> *@
     </MudCardHeader>
     <MudCardContent Class="py-0">
         @if (ChildContent != null)

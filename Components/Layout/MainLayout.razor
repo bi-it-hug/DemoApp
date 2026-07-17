@@ -4,11 +4,16 @@
 @inject NotificationService Notifications
 @inject NavigationManager Navigation
 @inject AppStateService AppState
+
+@inject IDialogService DialogService
 @inject ISnackbar Snackbar
 
 <MudPopoverProvider />
 <MudSnackbarProvider />
-<MudDialogProvider />
+<MudDialogProvider
+    MaxWidth="MaxWidth.ExtraSmall"
+    FullWidth="true"
+/>
 <MudThemeProvider
     @ref="_themeProvider"
     Theme="@_theme"
@@ -19,10 +24,6 @@
 />
 
 <style>
-    .no-shadow {
-        box-shadow: none !important;
-    }
-
     .mud-menu-list {
         padding: 0px !important;
     }
@@ -46,11 +47,11 @@
 
     {
         <MudAppBar>
-            @* <SidebarToggle /> *@
+            <SidebarToggle />
 
             <MudBreadcrumbs
                 Items="@_items"
-                Class="ml-n2"
+                Class="ml-2"
             >
                 <SeparatorTemplate>
                     <MudIcon
@@ -70,7 +71,7 @@
             >
                 <MudButton
                     Variant="Variant.Outlined"
-                    OnClick="@HandleClick"
+                    OnClick="HandleClick"
                 >
                     Notification Test
                 </MudButton>
@@ -87,13 +88,13 @@
             Breakpoint="Breakpoint.Sm"
             Class="border-r mud-border-tertiary py-4"
         >
-            <MudStack
+            @* <MudStack
                 Justify="Justify.FlexStart"
                 AlignItems="AlignItems.Start"
                 Class="ml-6"
             >
                 <SidebarToggle />
-            </MudStack>
+            </MudStack> *@
 
             <MudNavMenu
                 Margin="Margin.Dense"
@@ -144,6 +145,7 @@
                         Icon="@Icons.Material.Rounded.Settings"
                         Variant="Variant.Text"
                         Size="Size.Small"
+                        OnClick="OpenDialogAsync"
                     />
                 </MudTooltip>
             </MudStack>
@@ -177,6 +179,11 @@
     private bool _isDarkMode;
     private string CurrentPage = "";
     private List<BreadcrumbItem> _items = [];
+
+    private Task OpenDialogAsync()
+    {
+        return DialogService.ShowAsync<SettingsDialog>("");
+    }
 
     public async Task HandleClick()
     {

@@ -14,7 +14,7 @@
         <MudStack
             Justify="Justify.FlexStart"
             AlignItems="AlignItems.Start"
-            Spacing="0"
+            Spacing="1"
             Style="max-width: 300px"
         >
             <MudText
@@ -28,7 +28,7 @@
                 Typo="Typo.body2"
                 Class="mud-text-disabled"
             >
-                @Href
+                @Description
             </MudText>
         </MudStack>
 
@@ -79,4 +79,9 @@
         Severity.Error => Color.Error,
         _ => Color.Default
     };
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(Description);
+    }
 }

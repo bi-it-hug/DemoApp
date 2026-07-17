@@ -77,11 +77,11 @@ public static class Theme
             HoverOpacity = 0.06,
             RippleOpacity = 0.1,
             RippleOpacitySecondary = 0.1,
-             //GrayDefault = Opacity(Base.Black, 0.05),
-            // GrayLight = Neutral._300,
-            // GrayLighter = Neutral._200,
-            // GrayDark = Neutral._500,
-             GrayDarker = Neutral._900,
+            GrayDefault = Opacity(Base.Black, 0.05),
+            GrayLight = Neutral._300,
+            GrayLighter = Neutral._200,
+            GrayDark = Neutral._500,
+            GrayDarker = Neutral._900,
             OverlayDark = Opacity(Neutral._800, 0.5),
             OverlayLight = Opacity(Base.White, 0.5)
         },
@@ -125,94 +125,99 @@ public static class Theme
             DarkContrastText = Neutral._900,
         },
 
+        // Font sizes & line-heights match Tailwind: https://tailwindcss.com/docs/font-size
         Typography = new Typography()
         {
             Default = new DefaultTypography()
             {
-                FontFamily = ["Geist", "sans-serif"]
+                FontFamily = ["Geist", "sans-serif"],
+                FontSize = "1rem", // text-base
+                LineHeight = (1.5 / 1).ToString(),
+                FontWeight = "400",
+                LetterSpacing = "0"
             },
             Button = new ButtonTypography()
             {
-                FontSize = "14px",
-                LineHeight = "20px", // (1.25 / 0.875).ToString()
+                FontSize = "0.875rem", // text-sm
+                LineHeight = (1.25 / 0.875).ToString(),
                 FontWeight = "500",
                 LetterSpacing = "0",
                 TextTransform = ""
             },
             Subtitle1 = new Subtitle1Typography()
             {
-                FontSize = "16px",
+                FontSize = "1rem", // text-base
                 LineHeight = (1.5 / 1).ToString(),
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
             Subtitle2 = new Subtitle2Typography()
             {
-                FontSize = "14px",
+                FontSize = "0.875rem", // text-sm
                 LineHeight = (1.25 / 0.875).ToString(),
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
             Caption = new CaptionTypography()
             {
-                FontSize = "12px",
+                FontSize = "0.75rem", // text-xs
                 LineHeight = (1 / 0.75).ToString(),
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
             Body2 = new Body2Typography()
             {
-                FontSize = "14px",
+                FontSize = "0.875rem", // text-sm
                 LineHeight = (1.25 / 0.875).ToString(),
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
             Body1 = new Body1Typography()
             {
-                FontSize = "16px",
-                LineHeight = "20px", // 22px (1.5 / 1).ToString()
+                FontSize = "1rem", // text-base
+                LineHeight = (1.5 / 1).ToString(),
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
             H6 = new H6Typography()
             {
-                FontSize = "18px",
+                FontSize = "1.125rem", // text-lg
                 LineHeight = (1.75 / 1.125).ToString(),
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
             H5 = new H5Typography()
             {
-                FontSize = "20px",
+                FontSize = "1.25rem", // text-xl
                 LineHeight = (1.75 / 1.25).ToString(),
                 FontWeight = "500",
                 LetterSpacing = "0"
             },
             H4 = new H4Typography()
             {
-                FontSize = "24px",
+                FontSize = "1.5rem", // text-2xl
                 LineHeight = (2 / 1.5).ToString(),
                 FontWeight = "500",
                 LetterSpacing = "0"
             },
             H3 = new H3Typography()
             {
-                FontSize = "30px",
+                FontSize = "1.875rem", // text-3xl
                 LineHeight = (2.25 / 1.875).ToString(),
                 FontWeight = "600",
                 LetterSpacing = "0"
             },
             H2 = new H2Typography()
             {
-                FontSize = "36px",
+                FontSize = "2.25rem", // text-4xl
                 LineHeight = (2.5 / 2.25).ToString(),
                 FontWeight = "600",
                 LetterSpacing = "0"
             },
             H1 = new H1Typography()
             {
-                FontSize = "48px",
-                LineHeight = 1.ToString(),
+                FontSize = "3rem", // text-5xl
+                LineHeight = "1",
                 FontWeight = "700",
                 LetterSpacing = "0"
             }

@@ -1,22 +1,78 @@
-﻿<MudDialog
-    TitleClass="px-4 pt-4 pb-0 gap-2 d-flex flex-column justify-start align-center"
+﻿@inject AppStateService AppState
+
+<MudDialog
+    TitleClass="px-4 pt-4 pb-0 gap-1 d-flex justify-space-between align-start"
     ActionsClass="px-4 pb-4 pt-0"
-    Class="no-shadow border mud-border-tertiary"
+    ContentClass="px-4 py-0"
+    Class="border mud-border-tertiary mud-dialog-width-xs gap-4"
 >
     <TitleContent>
-        <MudText Typo="Typo.body1">
-            Settings
-        </MudText>
-        <MudText
-            Typo="Typo.subtitle2"
-            Class="mud-text-disabled"
+        <MudStack
+            Spacing="1"
         >
-            Make changes to your liking here.
-        </MudText>
+            <MudText Typo="Typo.body1">
+                Settings
+            </MudText>
+            <MudText
+                Typo="Typo.subtitle2"
+                Class="mud-text-disabled"
+            >
+                Make changes to your liking here.
+            </MudText>
+        </MudStack>
+        <MudIconButton
+            Icon="@Icons.Material.Rounded.Close"
+            Size="Size.Small"
+            OnClick="Cancel"
+        />
     </TitleContent>
-    @* <DialogContent>
-        Dialog Content
-    </DialogContent> *@
+    <DialogContent>
+        <MudStack
+            Justify="Justify.SpaceBetween"
+            AlignItems="AlignItems.Center"
+            Spacing="20"
+            Row
+        >
+            <MudText
+                Typo="Typo.body1"
+                Class="mr-20"
+            >
+                Theme
+            </MudText>
+
+            <MudSelect
+                T="ThemeMode"
+                Label="Theme"
+                Variant="Variant.Outlined"
+                Margin="Margin.Dense"
+                Dense
+                ListClass="mt-1 border mud-border-tertiary rounded"
+                @bind-Value="@Value"
+            >
+                @foreach (var variant in Enum.GetValues<ThemeMode>())
+                {
+                    <MudSelectItem
+                        T="ThemeMode"
+                        Value="@variant"
+                        Class="px-2 py-1"
+                    >
+                        <MudStack
+                            Spacing="2"
+                            Row
+                        >
+                            <MudIcon
+                                Icon="@GetIcon(variant)"
+                                Size="Size.Small"
+                            />
+                            <MudText>
+                                @variant
+                            </MudText>
+                        </MudStack>
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudStack>
+    </DialogContent>
     <DialogActions>
         <MudButton Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Outlined" OnClick="Submit">Save</MudButton>
@@ -26,6 +82,26 @@
 @code {
     [CascadingParameter]
     private IMudDialogInstance MudDialog { get; set; }
-    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+    private ThemeMode Value { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Value = AppState.Settings.ThemeMode;
+    }
+
+    private async Task Submit()
+    {
+        await AppState.SetThemeModeAsync(Value);
+        // MudDialog.Close(DialogResult.Ok(true));
+    }
+
     private void Cancel() => MudDialog.Cancel();
+
+    private string GetIcon(ThemeMode mode) => mode switch
+    {
+        ThemeMode.Light => Icons.Material.Rounded.LightMode,
+        ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
+        _ => Icons.Material.Rounded.AutoMode
+    };
 }
