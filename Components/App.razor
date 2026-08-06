@@ -11,7 +11,61 @@
         <ImportMap />
         <link rel="icon" type="image/ico" href="favicon.ico" />
         <HeadOutlet @rendermode="InteractiveServer" />
-        <style>::selection { background-color: var(--mud-palette-text-primary); color: var(--mud-palette-background); }</style>
+        <style>
+            ::selection {
+                background-color: var(--mud-palette-text-primary);
+                color: var(--mud-palette-background);
+            }
+
+            .mud-list-item-text {
+                margin: 0 !important;
+            }
+
+            .mud-menu-list {
+                padding: 0px !important;
+            }
+
+            .mud-menu-item-text {
+                margin: 0 !important;
+            }
+
+            .mud-menu-item-icon {
+                width: 1.125rem !important;
+                height: 1.125rem !important;
+                margin-right: 0.5rem !important;
+            }
+
+            .mud-nav-link {
+                margin: 0 !important;
+                padding: 6px !important;
+            }
+
+            .mud-nav-link-text {
+                margin-left: 6px !important;
+            }
+
+            .mud-nav-link-icon {
+                width: 1.25rem !important;
+                height: 1.25rem !important;
+            }
+
+            .clear .mud-icon-root {
+                padding: 2px;
+            }
+
+            .mud-icon-button-size-small {
+                padding: 6px;
+            }
+
+            .mud-button-outlined-size-small.mud-icon-button {
+                padding: 5px !important;
+            }
+
+            .mud-button-outlined-size-medium {
+                padding-block: 6px !important;
+                padding-inline: 12px !important;
+            }
+        </style>
     </head>
 
     <body style="height: 100vh">

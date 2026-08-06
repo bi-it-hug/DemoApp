@@ -1,9 +1,9 @@
 ﻿@inherits LayoutComponentBase
 @implements IDisposable
 
-@inject NotificationService Notifications
-@inject NavigationManager Navigation
-@inject AppStateService AppState
+@inject NotificationService NotificationService
+@inject NavigationManager NavigationManager
+@inject AppStateService AppStateService
 
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
@@ -11,56 +11,52 @@
 <MudPopoverProvider />
 <MudSnackbarProvider />
 <MudDialogProvider
-    MaxWidth="MaxWidth.ExtraSmall"
+    MaxWidth="MaxWidth.Small"
     FullWidth="true"
 />
+
 <MudThemeProvider
-    @ref="_themeProvider"
-    Theme="@_theme"
-    IsDarkMode="@_isDarkMode"
+    @ref="ThemeProvider"
+    Theme="@Theme"
+    IsDarkMode="@IsDarkMode"
     IsDarkModeChanged="OnIsDarkModeChanged"
     ObserveSystemDarkModeChange="@ObserveSystemDarkMode"
     DefaultScrollbar
 />
 
-<style>
-    .mud-menu-list {
-        padding: 0px !important;
-    }
-
-    .mud-icon-root.mud-svg-icon.mud-icon-size-medium.mud-menu-item-icon {
-        width: 16px !important;
-        margin-right: 6px !important;
-    }
-
-    .mud-menu-item-text {
-        margin: 0 !important;
-    }
-</style>
-
 <MudLayout>
-    @if (!AppState.IsInitialized)
+    @if (!AppStateService.IsInitialized)
     {
-        <MudProgressCircular Indeterminate="true" />
+        <MudStack
+            Justify="Justify.Center"
+            AlignItems="AlignItems.Center"
+            Class="mud-width-full mud-height-full"
+        >
+            <MudProgressCircular Indeterminate="true" />
+        </MudStack>
     }
     else
-
     {
-        <MudAppBar>
-            <SidebarToggle />
+        <MudAppBar ToolBarClass="px-4">
 
-            <MudBreadcrumbs
-                Items="@_items"
+
+            @if (CurrentPage != "Not-Found")
+            {
+                <SidebarToggle />
+
+                <MudBreadcrumbs
+                Items="@Items"
                 Class="ml-2"
-            >
-                <SeparatorTemplate>
-                    <MudIcon
+                >
+                    <SeparatorTemplate>
+                        <MudIcon
                         Icon="@Icons.Material.Rounded.ChevronRight"
                         Size="Size.Small"
                         Style="opacity: 50%"
-                    />
-                </SeparatorTemplate>
-            </MudBreadcrumbs>
+                        />
+                    </SeparatorTemplate>
+                </MudBreadcrumbs>
+            }
 
             <MudSpacer />
 
@@ -69,87 +65,81 @@
                 AlignItems="AlignItems.Center"
                 Row
             >
-                <MudButton
-                    Variant="Variant.Outlined"
-                    OnClick="HandleClick"
-                >
-                    Notification Test
-                </MudButton>
-                <NotificationMenu />
+                @if (CurrentPage != "Not-Found")
+                {
+                    <MudButton
+                        Variant="Variant.Outlined"
+                        OnClick="AddTestNotification"
+                    >
+                        Notification Test
+                    </MudButton>
+                    <NotificationMenu />
+                }
                 <ThemeSwitch />
             </MudStack>
         </MudAppBar>
 
-        <MudDrawer
-            Open="@AppState.Settings.IsDrawerOpen"
-            OpenChanged="@AppState.SetDrawerOpenAsync"
-            Variant="DrawerVariant.Mini"
-            ClipMode="DrawerClipMode.Never"
-            Breakpoint="Breakpoint.Sm"
-            Class="border-r mud-border-tertiary py-4"
-        >
-            @* <MudStack
-                Justify="Justify.FlexStart"
-                AlignItems="AlignItems.Start"
-                Class="ml-6"
+        @if (CurrentPage != "Not-Found")
+        {
+            <MudDrawer
+                Open="@AppStateService.Settings.IsDrawerOpen"
+                OpenChanged="@AppStateService.SetDrawerOpenAsync"
+                Variant="DrawerVariant.Mini"
+                ClipMode="DrawerClipMode.Never"
+                Breakpoint="Breakpoint.Sm"
+                Class="border-r mud-border-tertiary pa-3"
             >
-                <SidebarToggle />
-            </MudStack> *@
-
-            <MudNavMenu
-                Margin="Margin.Dense"
-                Class="py-2 d-flex flex-column"
-                Style="margin-inline: 9px"
-                Rounded
-            >
-                <CascadingValue Value="CurrentPage">
-                    <TooltipNavLink
-                        Href=""
-                        Match="NavLinkMatch.All"
-                        Icon="@Icons.Material.Rounded.Dashboard"
-                    >
-                        Dashboard
-                    </TooltipNavLink>
-
-                    <TooltipNavLink
-                        Href="playground"
-                        Match="NavLinkMatch.Prefix"
-                        Icon="@Icons.Material.Rounded.Architecture"
-                    >
-                        Playground
-                    </TooltipNavLink>
-
-                    <TooltipNavLink
-                        Href="not-found"
-                        Match="NavLinkMatch.Prefix"
-                        Icon="@Icons.Material.Rounded.Error"
-                    >
-                        Not Found
-                    </TooltipNavLink>
-                </CascadingValue>
-            </MudNavMenu>
-
-            <MudSpacer />
-
-            <MudStack
-                Justify="Justify.FlexStart"
-                AlignItems="AlignItems.Start"
-                Class="ml-6"
-            >
-                <MudTooltip
-                    Text="Settings"
-                    Placement="Placement.Right"
-                    Arrow
+                <MudNavMenu
+                    Margin="Margin.Dense"
+                    Class="d-flex flex-column gap-1"
+                    Rounded
+                    Dense
                 >
-                    <MudIconButton
+                    <CascadingValue Value="CurrentPage">
+                        <TooltipNavLink
+                            Href=""
+                            Match="NavLinkMatch.All"
+                            Icon="@Icons.Material.Rounded.Dashboard"
+                        >
+                            Dashboard
+                        </TooltipNavLink>
+
+                        <TooltipNavLink
+                            Href="playground"
+                            Match="NavLinkMatch.Prefix"
+                            Icon="@Icons.Material.Rounded.Architecture"
+                        >
+                            Playground
+                        </TooltipNavLink>
+
+                        <TooltipNavLink
+                            Href="not-found"
+                            Match="NavLinkMatch.Prefix"
+                            Icon="@Icons.Material.Rounded.Error"
+                        >
+                            Not Found
+                        </TooltipNavLink>
+                    </CascadingValue>
+                </MudNavMenu>
+
+                <MudSpacer />
+
+                <MudNavMenu
+                    Margin="Margin.Dense"
+                    Class="d-flex flex-column gap-1"
+                    Rounded
+                    Dense
+                >
+                    <TooltipNavLink
+                        OnClick="@(() => OpenDialogAsync(SettingsDialogOptions))"
+                        Match="NavLinkMatch.Prefix"
                         Icon="@Icons.Material.Rounded.Settings"
-                        Variant="Variant.Text"
-                        Size="Size.Small"
-                        OnClick="OpenDialogAsync"
-                    />
-                </MudTooltip>
-            </MudStack>
-        </MudDrawer>
+                    >
+                        Settings
+                    </TooltipNavLink>
+                </MudNavMenu>
+            </MudDrawer>
+        }
 
         <MudMainContent
             Class="d-flex justify-center align-center mud-height-full"
@@ -167,25 +157,21 @@
     }
 </MudLayout>
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
-
     @code {
-    private readonly MudTheme _theme = Theme.Create();
-    private MudThemeProvider _themeProvider = default!;
-    private bool _isDarkMode;
+    private readonly MudTheme Theme = DemoApp.Theme.Theme.Create();
+    private MudThemeProvider ThemeProvider = default!;
+    private List<BreadcrumbItem> Items = [];
     private string CurrentPage = "";
-    private List<BreadcrumbItem> _items = [];
+    private bool IsDarkMode;
 
-    private Task OpenDialogAsync()
+    private readonly DialogOptions SettingsDialogOptions = new() { CloseButton = false };
+
+    private Task OpenDialogAsync(DialogOptions options)
     {
-        return DialogService.ShowAsync<SettingsDialog>("");
+        return DialogService.ShowAsync<SettingsDialog>("", options);
     }
 
-    public async Task HandleClick()
+    public async Task AddTestNotification()
     {
         Notification TestNotification = new(
             "playground?dialog=test",
@@ -195,34 +181,31 @@
         );
 
         Snackbar.Add(TestNotification.Title, TestNotification.Severity);
-        await Notifications.AddAsync(TestNotification);
+        await NotificationService.AddAsync(TestNotification);
     }
 
-    private bool ObserveSystemDarkMode =>
-        AppState.Settings.ThemeMode == ThemeMode.System;
+    private bool ObserveSystemDarkMode => AppStateService.Settings.ThemeMode == ThemeMode.System;
 
     protected override void OnInitialized()
     {
-        AppState.Changed += OnStateChanged;
-        Navigation.LocationChanged += OnLocationChanged;
-        UpdateBreadcrumbs(Navigation.Uri);
+        AppStateService.Changed += OnStateChanged;
+        NavigationManager.LocationChanged += OnLocationChanged;
+        UpdateBreadcrumbs(NavigationManager.Uri);
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         UpdateBreadcrumbs(e.Location);
         _ = InvokeAsync(StateHasChanged);
+        Console.WriteLine(CurrentPage);
     }
 
     private void UpdateBreadcrumbs(string uri)
     {
-        var relativePath = Navigation.ToBaseRelativePath(uri);
+        var relativePath = NavigationManager.ToBaseRelativePath(uri);
+        CurrentPage = string.IsNullOrWhiteSpace(relativePath) ? "Dashboard" : StringUtilities.ToTitleCase(relativePath);
 
-        CurrentPage = string.IsNullOrWhiteSpace(relativePath)
-            ? "Dashboard"
-            : StringUtilities.ToTitleCase(relativePath);
-
-        _items =
+        Items =
         [
             new BreadcrumbItem("Demo App", href: relativePath),
             new BreadcrumbItem(CurrentPage, href: relativePath),
@@ -233,23 +216,23 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
-        await AppState.InitializeAsync();
+        await AppStateService.InitializeAsync();
         await SyncDarkModeAsync();
     }
 
     private void OnIsDarkModeChanged(bool value)
     {
         if (!ObserveSystemDarkMode) return;
-        _isDarkMode = value;
+        IsDarkMode = value;
     }
 
     private async Task SyncDarkModeAsync()
     {
-        _isDarkMode = AppState.Settings.ThemeMode switch
+        IsDarkMode = AppStateService.Settings.ThemeMode switch
         {
             ThemeMode.Dark => true,
             ThemeMode.Light => false,
-            _ => await _themeProvider.GetSystemDarkModeAsync()
+            _ => await ThemeProvider.GetSystemDarkModeAsync()
         };
 
         await InvokeAsync(StateHasChanged);
@@ -265,7 +248,13 @@
 
     public void Dispose()
     {
-        Navigation.LocationChanged -= OnLocationChanged;
-        AppState.Changed -= OnStateChanged;
+        NavigationManager.LocationChanged -= OnLocationChanged;
+        AppStateService.Changed -= OnStateChanged;
     }
 }
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>

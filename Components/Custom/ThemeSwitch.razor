@@ -1,40 +1,42 @@
 ﻿@implements IDisposable
 
-@inject AppStateService AppState
+@inject AppStateService AppStateService
+
+@* PopoverClass="border mud-border-tertiary mt-1 pa-1" *@
 
 @* Dropdown Menu *@
 <MudMenu
     Icon="@CurrentIcon"
     Size="Size.Small"
     Variant="Variant.Outlined"
-    ActivationEvent="@MouseEvent.MouseOver"
     TransformOrigin="Origin.TopRight"
     AnchorOrigin="Origin.BottomRight"
     PopoverClass="border mud-border-tertiary mt-1 pa-1"
+    ListClass="d-flex flex-column gap-1"
     Dense
 >
     <MudMenuItem
         Icon="@Icons.Material.Rounded.AutoMode"
         Label="System"
-        OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.System))"
-        Class="rounded px-2"
+        OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.System))"
+        Class="pa-2 rounded"
     />
     <MudMenuItem
         Icon="@Icons.Material.Rounded.LightMode"
         Label="Light"
-        OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.Light))"
-        Class="rounded px-2"
+        OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.Light))"
+        Class="pa-2 rounded"
     />
     <MudMenuItem
         Icon="@Icons.Material.Rounded.DarkMode"
         Label="Dark"
-        OnClick="@(() => AppState.SetThemeModeAsync(ThemeMode.Dark))"
-        Class="rounded px-2"
+        OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.Dark))"
+        Class="pa-2 rounded"
     />
 </MudMenu>
 
 @code {
-    private string CurrentIcon => AppState.Settings.ThemeMode switch
+    private string CurrentIcon => AppStateService.Settings.ThemeMode switch
     {
         ThemeMode.Light => Icons.Material.Rounded.LightMode,
         ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
@@ -43,7 +45,7 @@
 
     protected override void OnInitialized()
     {
-        AppState.Changed += OnAppStateChanged;
+        AppStateService.Changed += OnAppStateChanged;
     }
 
     private void OnAppStateChanged()
@@ -53,7 +55,7 @@
 
     public void Dispose()
     {
-        AppState.Changed -= OnAppStateChanged;
+        AppStateService.Changed -= OnAppStateChanged;
     }
 }
 

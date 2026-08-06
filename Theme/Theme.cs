@@ -10,8 +10,8 @@ public static class Theme
     {
         LayoutProperties = new LayoutProperties()
         {
-            AppbarHeight = "58px",
-            DrawerMiniWidthLeft = "75px",
+            AppbarHeight = "54px",
+            DrawerMiniWidthLeft = "57px",
             DefaultBorderRadius = "8px"
         },
 

@@ -1,4 +1,4 @@
-﻿@inject AppStateService AppState
+﻿@inject AppStateService AppStateService
 
 <MudTooltip
     Text="Toggle Sidebar"
@@ -8,7 +8,7 @@
     <MudIconButton
         Icon="@Icons.Material.Rounded.Menu"
         Variant="Variant.Text"
-        OnClick="@AppState.ToggleDrawerAsync"
+        OnClick="@AppStateService.ToggleDrawerAsync"
         Size="Size.Small"
     />
 </MudTooltip>

@@ -14,25 +14,15 @@ public sealed class LocalStorageService(IJSRuntime jsRuntime)
     public async ValueTask SetAsync<T>(string key, T value)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
-
         var json = JsonSerializer.Serialize(value, _jsonOptions);
-
-        await jsRuntime.InvokeVoidAsync(
-            "localStorage.setItem",
-            key,
-            json);
+        await jsRuntime.InvokeVoidAsync("localStorage.setItem", key, json);
     }
 
     public async ValueTask<T?> GetAsync<T>(string key)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
-
-        var json = await jsRuntime.InvokeAsync<string?>(
-            "localStorage.getItem",
-            key);
-
-        if (string.IsNullOrWhiteSpace(json))
-            return default;
+        var json = await jsRuntime.InvokeAsync<string?>("localStorage.getItem", key);
+        if (string.IsNullOrWhiteSpace(json)) return default;
 
         try
         {
@@ -47,9 +37,6 @@ public sealed class LocalStorageService(IJSRuntime jsRuntime)
     public ValueTask RemoveAsync(string key)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
-
-        return jsRuntime.InvokeVoidAsync(
-            "localStorage.removeItem",
-            key);
+        return jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
     }
 }

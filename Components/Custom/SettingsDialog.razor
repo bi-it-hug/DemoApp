@@ -1,4 +1,4 @@
-﻿@inject AppStateService AppState
+﻿@inject AppStateService AppStateService
 
 <MudDialog
     TitleClass="px-4 pt-4 pb-0 gap-1 d-flex justify-space-between align-start"
@@ -20,57 +20,42 @@
                 Make changes to your liking here.
             </MudText>
         </MudStack>
-        <MudIconButton
-            Icon="@Icons.Material.Rounded.Close"
-            Size="Size.Small"
-            OnClick="Cancel"
-        />
     </TitleContent>
     <DialogContent>
-        <MudStack
-            Justify="Justify.SpaceBetween"
-            AlignItems="AlignItems.Center"
-            Spacing="20"
-            Row
-        >
-            <MudText
-                Typo="Typo.body1"
-                Class="mr-20"
-            >
-                Theme
-            </MudText>
-
-            <MudSelect
-                T="ThemeMode"
+        <MudStack Spacing="3">
+            <SettingsRow
                 Label="Theme"
-                Variant="Variant.Outlined"
-                Margin="Margin.Dense"
-                Dense
-                ListClass="mt-1 border mud-border-tertiary rounded"
-                @bind-Value="@Value"
             >
-                @foreach (var variant in Enum.GetValues<ThemeMode>())
-                {
-                    <MudSelectItem
-                        T="ThemeMode"
-                        Value="@variant"
-                        Class="px-2 py-1"
-                    >
-                        <MudStack
-                            Spacing="2"
-                            Row
+                <MudSelect
+                    T="ThemeMode"
+                    Variant="Variant.Outlined"
+                    Margin="Margin.Dense"
+                    FitContent
+                    Dense
+                    Class="my-0"
+                    InputClass="pa-1"
+                    PopoverClass="mt-1 border mud-border-tertiary rounded"
+                    ListClass="d-flex flex-column pa-1 gap-1"
+                    @bind-Value="@CurrentTheme"
+                >
+                    @foreach (var variant in Enum.GetValues<ThemeMode>())
+                    {
+                        <MudSelectItem
+                            T="ThemeMode"
+                            Value="@variant"
+                            Class="rounded pa-2"
                         >
-                            <MudIcon
-                                Icon="@GetIcon(variant)"
-                                Size="Size.Small"
-                            />
-                            <MudText>
-                                @variant
-                            </MudText>
-                        </MudStack>
-                    </MudSelectItem>
-                }
-            </MudSelect>
+                            @variant
+                        </MudSelectItem>
+                    }
+                </MudSelect>
+            </SettingsRow>
+
+            <SettingsRow
+                Label="Some Toggle"
+            >
+                <MudSwitch @bind-Value="CurrentSwitchState" />
+            </SettingsRow>
         </MudStack>
     </DialogContent>
     <DialogActions>
@@ -81,22 +66,25 @@
 
 @code {
     [CascadingParameter]
-    private IMudDialogInstance MudDialog { get; set; }
+    private IMudDialogInstance? MudDialog { get; set; }
 
-    private ThemeMode Value { get; set; }
+    private ThemeMode CurrentTheme { get; set; }
+    private bool CurrentSwitchState { get; set; }
 
     protected override void OnInitialized()
     {
-        Value = AppState.Settings.ThemeMode;
+        CurrentTheme = AppStateService.Settings.ThemeMode;
+        CurrentSwitchState = AppStateService.Settings.TestSwitch;
     }
 
     private async Task Submit()
     {
-        await AppState.SetThemeModeAsync(Value);
-        // MudDialog.Close(DialogResult.Ok(true));
+        await AppStateService.SetThemeModeAsync(CurrentTheme);
+        await AppStateService.SetTestSwitchAsync(CurrentSwitchState);
+        MudDialog?.Close(DialogResult.Ok(true));
     }
 
-    private void Cancel() => MudDialog.Cancel();
+    private void Cancel() => MudDialog?.Cancel();
 
     private string GetIcon(ThemeMode mode) => mode switch
     {

@@ -1,16 +1,24 @@
 @using DemoApp.Services
 
-@inject NavigationManager Navigation
-@inject AppStateService AppState
+@inject NavigationManager NavigationManager
+@inject AppStateService AppStateService
 
-@if (AppState.Settings.IsDrawerOpen)
+<style>
+    .active .mud-nav-link-text,
+    .active .mud-nav-link-icon {
+        color: var(--mud-palette-primary) !important;
+    }
+</style>
+
+@if (AppStateService.Settings.IsDrawerOpen)
 {
     <MudNavLink
         Href="@Href"
         Match="@Match"
         Icon="@Icon"
-        IconColor="@(IsActive ? Color.Primary : Color.Default)"
         Class="@Class"
+        ActiveClass="active"
+        OnClick="@OnClick"
         Style="white-space: nowrap"
     >
         @ChildContent
@@ -27,9 +35,9 @@ else
                 Href="@Href"
                 Match="@Match"
                 Icon="@Icon"
-                IconColor="@(IsActive ? Color.Primary : Color.Default)"
                 Class="@Class"
-                Style="white-space: nowrap"
+                ActiveClass="active"
+                OnClick="@OnClick"
             >
                 @ChildContent
             </MudNavLink>
@@ -45,20 +53,17 @@ else
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public string Href { get; set; } = "";
+    public string? Href { get; set; }
 
     [Parameter]
-    public NavLinkMatch Match { get; set; }
+    public required NavLinkMatch Match { get; set; }
 
     [Parameter]
-    public string? Icon { get; set; }
+    public required string Icon { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
 
     [Parameter]
     public string? Class { get; set; }
-
-    public bool IsActive =>
-        (Href.Trim('/') == "" ? "" : Href.Trim('/')) ==
-        (Navigation.ToBaseRelativePath(Navigation.Uri)
-            .Split('/', StringSplitOptions.RemoveEmptyEntries)
-            .FirstOrDefault() ?? "");
 }

@@ -14,23 +14,30 @@ public sealed class AppStateService(LocalStorageService storage)
 
     public async Task InitializeAsync()
     {
-        if (IsInitialized)
-            return;
-
-        Settings =
-            await storage.GetAsync<AppSettings>(StorageKey)
-            ?? new AppSettings();
-
+        if (IsInitialized) return;
+        Settings = await storage.GetAsync<AppSettings>(StorageKey) ?? new AppSettings();
         IsInitialized = true;
         NotifyChanged();
     }
 
     public async Task SetThemeModeAsync(ThemeMode mode)
     {
-        if (Settings.ThemeMode == mode)
-            return;
-
+        if (Settings.ThemeMode == mode) return;
         Settings.ThemeMode = mode;
+        await SaveAsync();
+    }
+
+    public async Task SetDrawerOpenAsync(bool value)
+    {
+        if (Settings.IsDrawerOpen == value) return;
+        Settings.IsDrawerOpen = value;
+        await SaveAsync();
+    }
+
+    public async Task SetTestSwitchAsync(bool value)
+    {
+        if (Settings.TestSwitch == value) return;
+        Settings.TestSwitch = value;
         await SaveAsync();
     }
 
@@ -39,13 +46,9 @@ public sealed class AppStateService(LocalStorageService storage)
         return SetDrawerOpenAsync(!Settings.IsDrawerOpen);
     }
 
-    public async Task SetDrawerOpenAsync(bool value)
+    public Task ToggleTestSwitchAsync()
     {
-        if (Settings.IsDrawerOpen == value)
-            return;
-
-        Settings.IsDrawerOpen = value;
-        await SaveAsync();
+        return SetTestSwitchAsync(!Settings.TestSwitch);
     }
 
     private async Task SaveAsync()
