@@ -49,8 +49,8 @@
                     InputClass="pa-1"
                     PopoverClass="mt-1 border mud-border-tertiary rounded"
                     ListClass="d-flex flex-column pa-1 gap-1"
-                    Value="@AppStateService.Settings.ThemeMode"
-                    ValueChanged="@AppStateService.SetThemeModeAsync"
+                    Value="AppStateService.Settings.ThemeMode"
+                    ValueChanged="AppStateService.SetThemeModeAsync"
                 >
                     @foreach (var variant in Enum.GetValues<ThemeMode>())
                     {
@@ -73,8 +73,8 @@
                     <MudSwitch
                         T="bool"
                         Size="Size.Small"
-                        Value="@AppStateService.Settings.IsDrawerOpen"
-                        ValueChanged="@AppStateService.SetDrawerOpenAsync"
+                        Value="AppStateService.Settings.IsDrawerOpen"
+                        ValueChanged="AppStateService.SetDrawerOpenAsync"
                     />
                 </SettingsRow>
 
@@ -87,8 +87,8 @@
                     <MudSwitch
                         T="bool"
                         Size="Size.Small"
-                        Value="@AppStateService.Settings.TestSwitch"
-                        ValueChanged="@AppStateService.SetTestSwitchAsync" />
+                        Value="AppStateService.Settings.TestSwitch"
+                        ValueChanged="AppStateService.SetTestSwitchAsync" />
                 </SettingsRow>
         </MudStack>
     </DialogContent>

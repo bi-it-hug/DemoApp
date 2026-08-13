@@ -1,9 +1,8 @@
-﻿@inject NotificationService NotificationService
-@implements IDisposable
+﻿@implements IDisposable
 
 <MudBadge
     Origin="Origin.TopRight"
-    Content="@NotificationService.Notifications.Count"
+    Content="NotificationService.Notifications.Count"
     Visible="@(NotificationService.IsInitialized && NotificationService.Notifications.Count > 0)"
     Color="Color.Error"
     Bordered
@@ -36,7 +35,7 @@
 
             <MudTooltip
                 Text="Clear All"
-                Disabled="@IsEmpty"
+                Disabled="IsEmpty"
                 Placement="Placement.Right"
                 Arrow
             >
@@ -44,8 +43,8 @@
                     Icon="@Icons.Material.Rounded.DoneAll"
                     Variant="Variant.Text"
                     Size="Size.Small"
-                    OnClick="@NotificationService.ClearAsync"
-                    Disabled="@IsEmpty"
+                    OnClick="NotificationService.ClearAsync"
+                    Disabled="IsEmpty"
                     Class="pa-0 clear"
                 />
             </MudTooltip>
@@ -73,7 +72,6 @@
                 <MudText
                     Typo="Typo.body1"
                     Align="Align.Center"
-                    Class=""
                 >
                     No notifications
                 </MudText>
@@ -98,10 +96,10 @@
                     var item = NotificationService.Notifications[index];
 
                     <NotificationItem
-                        Href="@item.Href"
-                        Title="@item.Title"
-                        Description="@item.Description"
-                        Severity="@item.Severity"
+                        Href="item.Href"
+                        Title="item.Title"
+                        Description="item.Description"
+                        Severity="item.Severity"
                         OnRemove="@(() => NotificationService.RemoveAsync(item.Id))"
                     />
 

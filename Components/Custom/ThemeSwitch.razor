@@ -1,12 +1,8 @@
-﻿@implements IDisposable
-
-@inject AppStateService AppStateService
-
-@* PopoverClass="border mud-border-tertiary mt-1 pa-1" *@
+﻿@* PopoverClass="border mud-border-tertiary mt-1 pa-1" *@
 
 @* Dropdown Menu *@
 <MudMenu
-    Icon="@CurrentIcon"
+    Icon="CurrentIcon"
     Size="Size.Small"
     Variant="Variant.Outlined"
     TransformOrigin="Origin.TopRight"
@@ -42,21 +38,6 @@
         ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
         _ => Icons.Material.Rounded.AutoMode
     };
-
-    protected override void OnInitialized()
-    {
-        AppStateService.Changed += OnAppStateChanged;
-    }
-
-    private void OnAppStateChanged()
-    {
-        InvokeAsync(StateHasChanged);
-    }
-
-    public void Dispose()
-    {
-        AppStateService.Changed -= OnAppStateChanged;
-    }
 }
 
 @* Simple Button *@

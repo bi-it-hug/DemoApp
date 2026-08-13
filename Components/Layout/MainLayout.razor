@@ -14,16 +14,16 @@
 
 <MudThemeProvider
     @ref="ThemeProvider"
-    Theme="@Theme"
-    IsDarkMode="@AppStateService.IsDarkMode"
+    Theme="Theme"
+    IsDarkMode="AppStateService.IsDarkMode"
     IsDarkModeChanged="OnIsDarkModeChanged"
-    ObserveSystemDarkModeChange="@ObserveSystemDarkMode"
+    ObserveSystemDarkModeChange="ObserveSystemDarkMode"
     DefaultScrollbar
 />
 
 <MudLayout>
     <MudBreakpointProvider>
-        @if (!@AppStateService.IsInitialized)
+        @if (!AppStateService.IsInitialized)
         {
             <MudStack
                 Justify="Justify.Center"
@@ -66,8 +66,8 @@
             @if (PageFound)
             {
                 <MudDrawer
-                    Open="@AppStateService.Settings.IsDrawerOpen"
-                    OpenChanged="@AppStateService.SetDrawerOpenAsync"
+                    Open="AppStateService.Settings.IsDrawerOpen"
+                    OpenChanged="AppStateService.SetDrawerOpenAsync"
                     Variant="DrawerVariant.Mini"
                     ClipMode="DrawerClipMode.Never"
                     Breakpoint="Breakpoint.Sm"
