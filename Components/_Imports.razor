@@ -8,7 +8,8 @@
 @using DemoApp.Services
 @using DemoApp.Theme
 @using static DemoApp.Theme.TailwindColors
-@using DemoApp.Utilities
+@using static DemoApp.Utilities.ColorUtilities
+@using static DemoApp.Utilities.StringUtilities
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
@@ -17,3 +18,4 @@
 @using MudBlazor
 @using MudBlazor.Services
 @using static Microsoft.AspNetCore.Components.Web.RenderMode
+@inherits StateComponent

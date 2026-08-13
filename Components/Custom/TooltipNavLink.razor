@@ -1,47 +1,26 @@
-@using DemoApp.Services
-
-@inject NavigationManager NavigationManager
-@inject AppStateService AppStateService
-
 <style>
+    .active {
+        background-color: color-mix(in srgb, var(--mud-palette-primary) 10%, transparent) !important;
+    }
+
     .active .mud-nav-link-text,
     .active .mud-nav-link-icon {
         color: var(--mud-palette-primary) !important;
+        font-weight: normal;
     }
 </style>
 
 @if (AppStateService.Settings.IsDrawerOpen)
 {
-    <MudNavLink
-        Href="@Href"
-        Match="@Match"
-        Icon="@Icon"
-        Class="@Class"
-        ActiveClass="active"
-        OnClick="@OnClick"
-        Style="white-space: nowrap"
-    >
-        @ChildContent
-    </MudNavLink>
+    @NavLink
 }
 else
 {
-    <MudTooltip
-        Placement="Placement.Right"
-        Arrow
-    >
+    <MudTooltip Placement="Placement.Right" Arrow>
         <ChildContent>
-            <MudNavLink
-                Href="@Href"
-                Match="@Match"
-                Icon="@Icon"
-                Class="@Class"
-                ActiveClass="active"
-                OnClick="@OnClick"
-            >
-                @ChildContent
-            </MudNavLink>
+            @NavLink
         </ChildContent>
+
         <TooltipContent>
             @ChildContent
         </TooltipContent>
@@ -66,4 +45,16 @@ else
 
     [Parameter]
     public string? Class { get; set; }
+
+    private RenderFragment NavLink => @<MudNavLink
+        Href="@Href"
+        Match="@Match"
+        Icon="@Icon"
+        Class="@Class"
+        ActiveClass="active"
+        OnClick="@OnClick"
+        Style="white-space: nowrap">
+            @ChildContent
+        </MudNavLink>
+    ;
 }

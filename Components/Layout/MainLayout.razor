@@ -1,174 +1,137 @@
-﻿@inherits LayoutComponentBase
-@implements IDisposable
+﻿@inherits StateLayoutComponent
 
-@inject NotificationService NotificationService
 @inject NavigationManager NavigationManager
-@inject AppStateService AppStateService
-
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 
 <MudPopoverProvider />
 <MudSnackbarProvider />
 <MudDialogProvider
-    MaxWidth="MaxWidth.Small"
+    MaxWidth="MaxWidth.ExtraSmall"
+    CloseButton="false"
     FullWidth="true"
 />
 
 <MudThemeProvider
     @ref="ThemeProvider"
     Theme="@Theme"
-    IsDarkMode="@IsDarkMode"
+    IsDarkMode="@AppStateService.IsDarkMode"
     IsDarkModeChanged="OnIsDarkModeChanged"
     ObserveSystemDarkModeChange="@ObserveSystemDarkMode"
     DefaultScrollbar
 />
 
 <MudLayout>
-    @if (!AppStateService.IsInitialized)
-    {
-        <MudStack
-            Justify="Justify.Center"
-            AlignItems="AlignItems.Center"
-            Class="mud-width-full mud-height-full"
-        >
-            <MudProgressCircular Indeterminate="true" />
-        </MudStack>
-    }
-    else
-    {
-        <MudAppBar ToolBarClass="px-4">
-
-
-            @if (CurrentPage != "Not-Found")
-            {
-                <SidebarToggle />
-
-                <MudBreadcrumbs
-                Items="@Items"
-                Class="ml-2"
-                >
-                    <SeparatorTemplate>
-                        <MudIcon
-                        Icon="@Icons.Material.Rounded.ChevronRight"
-                        Size="Size.Small"
-                        Style="opacity: 50%"
-                        />
-                    </SeparatorTemplate>
-                </MudBreadcrumbs>
-            }
-
-            <MudSpacer />
-
+    <MudBreakpointProvider>
+        @if (!@AppStateService.IsInitialized)
+        {
             <MudStack
                 Justify="Justify.Center"
                 AlignItems="AlignItems.Center"
-                Row
+                Class="mud-width-full mud-height-full"
             >
-                @if (CurrentPage != "Not-Found")
-                {
-                    <MudButton
-                        Variant="Variant.Outlined"
-                        OnClick="AddTestNotification"
-                    >
-                        Notification Test
-                    </MudButton>
-                    <NotificationMenu />
-                }
-                <ThemeSwitch />
+                <MudProgressCircular Indeterminate="true" />
             </MudStack>
-        </MudAppBar>
-
-        @if (CurrentPage != "Not-Found")
+        }
+        else
         {
-            <MudDrawer
-                Open="@AppStateService.Settings.IsDrawerOpen"
-                OpenChanged="@AppStateService.SetDrawerOpenAsync"
-                Variant="DrawerVariant.Mini"
-                ClipMode="DrawerClipMode.Never"
-                Breakpoint="Breakpoint.Sm"
-                Class="border-r mud-border-tertiary pa-3"
-            >
-                <MudNavMenu
-                    Margin="Margin.Dense"
-                    Class="d-flex flex-column gap-1"
-                    Rounded
-                    Dense
-                >
-                    <CascadingValue Value="CurrentPage">
-                        <TooltipNavLink
-                            Href=""
-                            Match="NavLinkMatch.All"
-                            Icon="@Icons.Material.Rounded.Dashboard"
-                        >
-                            Dashboard
-                        </TooltipNavLink>
-
-                        <TooltipNavLink
-                            Href="playground"
-                            Match="NavLinkMatch.Prefix"
-                            Icon="@Icons.Material.Rounded.Architecture"
-                        >
-                            Playground
-                        </TooltipNavLink>
-
-                        <TooltipNavLink
-                            Href="not-found"
-                            Match="NavLinkMatch.Prefix"
-                            Icon="@Icons.Material.Rounded.Error"
-                        >
-                            Not Found
-                        </TooltipNavLink>
-                    </CascadingValue>
-                </MudNavMenu>
+            <MudAppBar ToolBarClass="px-4">
+                @if (PageFound)
+                {
+                    <Breadcrumbs />
+                }
 
                 <MudSpacer />
 
-                <MudNavMenu
-                    Margin="Margin.Dense"
-                    Class="d-flex flex-column gap-1"
-                    Rounded
-                    Dense
+                <MudStack
+                    Justify="Justify.Center"
+                    AlignItems="AlignItems.Center"
+                    Row
                 >
-                    <TooltipNavLink
-                        OnClick="@(() => OpenDialogAsync(SettingsDialogOptions))"
-                        Match="NavLinkMatch.Prefix"
-                        Icon="@Icons.Material.Rounded.Settings"
-                    >
-                        Settings
-                    </TooltipNavLink>
-                </MudNavMenu>
-            </MudDrawer>
-        }
+                    @if (PageFound)
+                    {
+                        <MudButton
+                            Variant="Variant.Outlined"
+                            Size="Size.Small"
+                            OnClick="AddTestNotification"
+                        >
+                            Notification Test
+                        </MudButton>
+                        <NotificationMenu />
+                    }
+                    <ThemeSwitch />
+                </MudStack>
+            </MudAppBar>
 
-        <MudMainContent
-            Class="d-flex justify-center align-center mud-height-full"
-            Style="background-color: var(--mud-palette-appbar-background)"
-        >
-            <MudContainer
-                MaxWidth="MaxWidth.ExtraExtraLarge"
-                Gutters="false"
-                Class="mud-height-full"
-                Style="background-color: var(--mud-palette-background)"
+            @if (PageFound)
+            {
+                <MudDrawer
+                    Open="@AppStateService.Settings.IsDrawerOpen"
+                    OpenChanged="@AppStateService.SetDrawerOpenAsync"
+                    Variant="DrawerVariant.Mini"
+                    ClipMode="DrawerClipMode.Never"
+                    Breakpoint="Breakpoint.Sm"
+                    Class="border-r mud-border-tertiary pa-3"
+                >
+                    <SidebarToggle />
+
+                    <MudDivider
+                        Class="my-2"
+                        Style="flex-grow: 0"
+                    />
+
+                    <NavMenu />
+
+                    <MudSpacer />
+
+                    <MudDivider
+                        Class="my-2"
+                        Style="flex-grow: 0"
+                    />
+
+                    <MudNavMenu
+                        Margin="Margin.Dense"
+                        Class="d-flex flex-column gap-1"
+                        Rounded
+                        Dense
+                    >
+                        <TooltipNavLink
+                            OnClick="OpenSettingsDialogAsync"
+                            Match="NavLinkMatch.Prefix"
+                            Icon="@Icons.Material.Rounded.Settings"
+                        >
+                            Settings
+                        </TooltipNavLink>
+                    </MudNavMenu>
+                </MudDrawer>
+            }
+
+            <MudMainContent
+                Class="d-flex justify-center align-center mud-height-full"
+                Style="background-color: var(--mud-palette-appbar-background)"
             >
-                @Body
-            </MudContainer>
-        </MudMainContent>
-    }
+                <MudContainer
+                    MaxWidth="MaxWidth.ExtraExtraLarge"
+                    Gutters="false"
+                    Class="mud-height-full"
+                    Style="background-color: var(--mud-palette-background)"
+                >
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        }
+    </MudBreakpointProvider>
 </MudLayout>
 
     @code {
     private readonly MudTheme Theme = DemoApp.Theme.Theme.Create();
     private MudThemeProvider ThemeProvider = default!;
-    private List<BreadcrumbItem> Items = [];
-    private string CurrentPage = "";
-    private bool IsDarkMode;
+    private bool PageFound = false;
 
-    private readonly DialogOptions SettingsDialogOptions = new() { CloseButton = false };
-
-    private Task OpenDialogAsync(DialogOptions options)
+    private Task OpenSettingsDialogAsync()
     {
-        return DialogService.ShowAsync<SettingsDialog>("", options);
+        DialogOptions Options = new() {};
+        return DialogService.ShowAsync<SettingsDialog>("", Options);
     }
 
     public async Task AddTestNotification()
@@ -188,68 +151,57 @@
 
     protected override void OnInitialized()
     {
-        AppStateService.Changed += OnStateChanged;
+        base.OnInitialized();
         NavigationManager.LocationChanged += OnLocationChanged;
-        UpdateBreadcrumbs(NavigationManager.Uri);
+        UpdatePageFound(NavigationManager.Uri);
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
-        UpdateBreadcrumbs(e.Location);
+        UpdatePageFound(e.Location);
         _ = InvokeAsync(StateHasChanged);
-        Console.WriteLine(CurrentPage);
     }
 
-    private void UpdateBreadcrumbs(string uri)
+    private void UpdatePageFound(string uri)
     {
         var relativePath = NavigationManager.ToBaseRelativePath(uri);
-        CurrentPage = string.IsNullOrWhiteSpace(relativePath) ? "Dashboard" : StringUtilities.ToTitleCase(relativePath);
-
-        Items =
-        [
-            new BreadcrumbItem("Demo App", href: relativePath),
-            new BreadcrumbItem(CurrentPage, href: relativePath),
-            // new BreadcrumbItem("Link 1", href: "#")
-        ];
+        PageFound = !relativePath.Equals("not-found", StringComparison.OrdinalIgnoreCase);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
         await AppStateService.InitializeAsync();
-        await SyncDarkModeAsync();
+        await SyncResolvedThemeAsync();
     }
 
     private void OnIsDarkModeChanged(bool value)
     {
         if (!ObserveSystemDarkMode) return;
-        IsDarkMode = value;
+        AppStateService.SetResolvedTheme(value);
     }
 
-    private async Task SyncDarkModeAsync()
+    private async Task SyncResolvedThemeAsync()
     {
-        IsDarkMode = AppStateService.Settings.ThemeMode switch
+        var isDarkMode = AppStateService.Settings.ThemeMode switch
         {
             ThemeMode.Dark => true,
             ThemeMode.Light => false,
             _ => await ThemeProvider.GetSystemDarkModeAsync()
         };
 
-        await InvokeAsync(StateHasChanged);
+        AppStateService.SetResolvedTheme(isDarkMode);
     }
 
-    private void OnStateChanged()
+    protected override void OnAppStateChanged()
     {
-        _ = InvokeAsync(async () =>
-        {
-            await SyncDarkModeAsync();
-        });
+        _ = InvokeAsync(SyncResolvedThemeAsync);
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
-        AppStateService.Changed -= OnStateChanged;
+        base.Dispose();
     }
 }
 

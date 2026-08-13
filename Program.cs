@@ -21,6 +21,14 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<LocalStorageService>();
 builder.Services.AddScoped<AppStateService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<CoinGeckoService>();
+
+builder.Services.AddHttpClient(nameof(CoinGeckoService), client =>
+{
+    client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("DemoApp/1.0");
+    client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+});
 
 var app = builder.Build();
 

@@ -2,23 +2,28 @@
     Class="mud-width-full mud-height-full"
     Outlined
 >
-    <MudCardHeader Class="flex-column align-start gap-1">
-        @* <CardHeaderContent> *@
-            <MudText Typo="Typo.body1">
-                Card Title
-            </MudText>
-            <MudText
-                Typo="Typo.body2"
-                Class="mud-text-disabled"
-            >
-                Card Description
-            </MudText>
-        @* </CardHeaderContent> *@
+    <MudCardHeader Class="flex-row align-start gap-1">
+        <CardHeaderContent>
+            <MudStack Spacing="2">
+                <MudText Typo="Typo.body1">
+                    @Title
+                </MudText>
+                <MudText
+                    Typo="Typo.body2"
+                    Class="mud-text-disabled"
+                >
+                    @Description
+                </MudText>
+            </MudStack>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            @HeaderActions
+        </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent Class="py-0">
-        @if (ChildContent != null)
+        @if (Content != null)
         {
-            @ChildContent
+            @Content
         }
         else
         {
@@ -46,8 +51,14 @@
 
 @code {
     [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    public string? Title { get; set; } = "Card Title";
 
     [Parameter]
-    public string Title { get; set; }
+    public string? Description { get; set; } = "Card Description";
+
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+
+    [Parameter]
+    public RenderFragment? HeaderActions { get; set; }
 }

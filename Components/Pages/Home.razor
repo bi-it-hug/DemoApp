@@ -1,4 +1,6 @@
-﻿@page "/"
+﻿@inject CoinGeckoService CoinGecko
+
+@page "/"
 
 <PageTitle>Home</PageTitle>
 
@@ -9,8 +11,74 @@
     <MudItem
         xs="12"
     >
-        <SampleCard>
-            <SampleChart />
+        <SampleCard
+            Title="Some Values"
+            Description="Yes very good indeed"
+        >
+            <HeaderActions>
+                <MudStack
+                    Justify="Justify.Center"
+                    AlignItems="AlignItems.Center"
+                    Row
+                >
+                    <MudSwitch
+                        T="bool"
+                        Size="Size.Small"
+                        Value="Markers"
+                        ValueChanged="ToggleMarkers"
+                    />
+
+                    <MudSelect
+                        T="TimeRange"
+                        Variant="Variant.Outlined"
+                        Margin="Margin.Dense"
+                        Dense
+                        OpenIcon="@Icons.Material.Rounded.ArrowDropDown"
+                        CloseIcon="@Icons.Material.Rounded.ArrowDropUp"
+                        Class="my-0"
+                        InputClass="pa-1"
+                        PopoverClass="mt-1 border mud-border-tertiary rounded"
+                        ListClass="d-flex flex-column pa-1 gap-1"
+                        Style="width: 120px;"
+                        @bind-Value="Days"
+                        @bind-Value:after="FetchData"
+                    >
+                        @foreach (var timeRange in Enum.GetValues<TimeRange>())
+                        {
+                            <MudSelectItem
+                                T="TimeRange"
+                                Value="timeRange"
+                                Class="rounded pa-2"
+                                Style="white-space: nowrap"
+                            >
+                                @TimeRanges.Values[timeRange].Label
+                            </MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudStack>
+            </HeaderActions>
+            <Content>
+                @if (Series.Count == 0)
+                {
+                    <MudStack
+                        Justify="Justify.Center"
+                        AlignItems="AlignItems.Center"
+                        Class="mud-width-full mud-height-full"
+                    >
+                        <MudText Class="mud-text-disabled">
+                            @ErrorMessage
+                        </MudText>
+                    </MudStack>
+                }
+                else
+                {
+                    <TimeSeriesChart
+                        Series="Series"
+                        TimeRange="Days"
+                        ShowDataMarkers="Markers"
+                    />
+                }
+            </Content>
         </SampleCard>
     </MudItem>
 
@@ -62,3 +130,42 @@
         <SampleCard />
     </MudItem>
 </MudGrid>
+
+@code {
+    private List<ChartSeries<double>> Series = [];
+    private TimeRange Days = TimeRange.Day;
+    private bool Markers = false;
+    private string ErrorMessage = "";
+
+    private List<string> Coins = ["bitcoin", "ethereum", "tether", "solana"];
+
+    private async Task FetchData()
+    {
+        var series = new List<ChartSeries<double>>();
+
+        foreach (var coin in Coins)
+        {
+            var result = await CoinGecko.GetMarketChartAsync(days: Days, coinId: coin);
+            if (result.Error is not null)
+            {
+                ErrorMessage = result.Error;
+                Console.WriteLine("Error");
+            }
+            else
+            {
+                series.Add(TimeSeriesChart.CreateSeries(ToTitleCase(coin), result.Data.Prices));
+            }
+        }
+        Series = series;
+    }
+
+    private void ToggleMarkers()
+    {
+        Markers = !Markers;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchData();
+    }
+}

@@ -154,7 +154,7 @@ public static class Theme
             Subtitle2 = new Subtitle2Typography()
             {
                 FontSize = "0.875rem", // text-sm
-                LineHeight = (1.25 / 0.875).ToString(),
+                LineHeight = "20px", // (1.25 / 0.875).ToString()
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
@@ -168,14 +168,14 @@ public static class Theme
             Body2 = new Body2Typography()
             {
                 FontSize = "0.875rem", // text-sm
-                LineHeight = (1.25 / 0.875).ToString(),
+                LineHeight = "1", // (1.25 / 0.875).ToString()
                 FontWeight = "400",
                 LetterSpacing = "0"
             },
             Body1 = new Body1Typography()
             {
                 FontSize = "1rem", // text-base
-                LineHeight = (1.5 / 1).ToString(),
+                LineHeight = "22px", // (1.5 / 1).ToString()
                 FontWeight = "400",
                 LetterSpacing = "0"
             },

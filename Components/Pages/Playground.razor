@@ -5,45 +5,21 @@
 
 <MudContainer
     MaxWidth="MaxWidth.ExtraExtraLarge"
+    Class="d-flex flex-column justify-center align-center mud-height-full px-6 pt-0 pb-6"
     Gutters="false"
-    Class="d-flex flex-column justify-start align-start mud-height-full px-6 pt-0 pb-6"
 >
     <MudButton
-        OnClick="@(() => Navigation.NavigateTo("/playground?dialog=test"))"
+        OnClick="OpenAlertDialogAsync"
         Variant="Variant.Outlined"
     >
-        Open simple dialog
+        Alert Dialog
     </MudButton>
 </MudContainer>
 
 @code {
-    [SupplyParameterFromQuery]
-    public string? Dialog { get; set; }
-
-    private string? _openedDialog;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private Task OpenAlertDialogAsync()
     {
-        if (Dialog is null)
-        {
-            _openedDialog = null;
-            return;
-        }
-
-        if (Dialog == _openedDialog) return;
-        _openedDialog = Dialog;
-
-        IDialogReference? dialogReference = Dialog switch
-        {
-            "test" => await DialogService.ShowAsync<TestDialog>("Test"),
-            // "notifications" => await DialogService.ShowAsync<TestDialog>("Notifications"),
-            _ => null
-        };
-
-        if (dialogReference is null) return;
-        await dialogReference.Result;
-        _openedDialog = null;
-
-        Navigation.NavigateTo("/playground", replace: true);
+        DialogOptions Options = new() { BackdropClick = false };
+        return DialogService.ShowAsync<AlertDialog>("Alert", Options);
     }
 }

@@ -1,14 +1,6 @@
-﻿@inject AppStateService AppStateService
-
-<MudTooltip
-    Text="Toggle Sidebar"
-    Placement="Placement.Right"
-    Arrow
->
-    <MudIconButton
-        Icon="@Icons.Material.Rounded.Menu"
-        Variant="Variant.Text"
-        OnClick="@AppStateService.ToggleDrawerAsync"
-        Size="Size.Small"
-    />
-</MudTooltip>
+﻿<MudIconButton
+    Icon="@Icons.Material.Rounded.Menu"
+    OnClick="@AppStateService.ToggleDrawerAsync"
+    Size="Size.Small"
+    Style="width: fit-content; padding: 6px;"
+/>
