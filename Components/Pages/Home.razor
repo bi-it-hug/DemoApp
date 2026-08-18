@@ -139,12 +139,16 @@
 
     private List<string> Coins = ["bitcoin", "ethereum", "tether", "solana"];
 
+    private int Count = 0;
+
     private async Task FetchData()
     {
         var series = new List<ChartSeries<double>>();
 
         foreach (var coin in Coins)
         {
+            Count++;
+            Console.WriteLine(Count);
             var result = await CoinGecko.GetMarketChartAsync(days: Days, coinId: coin);
             if (result.Error is not null)
             {
@@ -153,7 +157,7 @@
             }
             else
             {
-                series.Add(TimeSeriesChart.CreateSeries(ToTitleCase(coin), result.Data.Prices));
+                series.Add(TimeSeriesChart.CreateSeries(ToTitleCase(coin), result.Data?.Prices ?? default!));
             }
         }
         Series = series;
