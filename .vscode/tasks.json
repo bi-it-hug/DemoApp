@@ -18,7 +18,7 @@
 			}
 		},
 		{
-			"label": "watch (http)",
+			"label": "watch",
 			"command": "dotnet",
 			"type": "process",
 			"args": [
@@ -29,76 +29,38 @@
 				"--launch-profile",
 				"http"
 			],
-			"isBackground": true,
-			"problemMatcher": {
-				"base": "$msCompile",
-				"background": {
-					"activeOnStart": true,
-					"beginsPattern": "dotnet watch",
-					"endsPattern": "Now listening on:"
-				}
-			},
 			"options": {
 				"cwd": "${workspaceFolder}",
 				"env": {
 					"ASPNETCORE_ENVIRONMENT": "Development"
 				}
 			},
-			"presentation": {
-				"reveal": "always",
-				"panel": "dedicated",
-				"focus": false
-			}
-		},
-		{
-			"label": "watch (https)",
-			"command": "dotnet",
-			"type": "process",
-			"args": [
-				"watch",
-				"--non-interactive",
-				"--project",
-				"${workspaceFolder}/DemoApp.csproj",
-				"--launch-profile",
-				"https"
-			],
-			"isBackground": true,
 			"problemMatcher": {
-				"base": "$msCompile",
+				"owner": "dotnet-watch",
+				"source": "dotnet-watch",
+				"fileLocation": [
+					"relative",
+					"${workspaceFolder}"
+				],
+				"pattern": {
+					"regexp": "^(.*)\\((\\d+),(\\d+)\\):\\s+(error|warning)\\s+(.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"severity": 4,
+					"message": 5
+				},
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "dotnet watch",
-					"endsPattern": "Now listening on:"
+					"beginsPattern": ".",
+					"endsPattern": ".*(Now listening on:|Hot reload enabled|dotnet watch 🚀).*"
 				}
 			},
-			"options": {
-				"cwd": "${workspaceFolder}",
-				"env": {
-					"ASPNETCORE_ENVIRONMENT": "Development"
-				}
-			},
+			"isBackground": true,
 			"presentation": {
 				"reveal": "always",
 				"panel": "dedicated",
 				"focus": false
-			}
-		},
-		{
-			"label": "terminate-watch",
-			"type": "shell",
-			"command": "powershell",
-			"args": [
-				"-NoProfile",
-				"-Command",
-				"Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -and $_.CommandLine -like '*watch*' -and $_.CommandLine -like '*DemoApp.csproj*' } | ForEach-Object { & taskkill.exe /F /T /PID $_.ProcessId | Out-Null }; Get-Process -Name DemoApp -ErrorAction SilentlyContinue | Stop-Process -Force"
-			],
-			"problemMatcher": [],
-			"presentation": {
-				"reveal": "silent",
-				"panel": "shared",
-				"showReuseMessage": false,
-				"clear": true,
-				"close": true
 			}
 		}
 	]

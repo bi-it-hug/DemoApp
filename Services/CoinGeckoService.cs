@@ -4,37 +4,37 @@ namespace DemoApp.Services;
 
 public sealed class CoinGeckoService(IHttpClientFactory httpClientFactory)
 {
-    private readonly HttpClient HttpClient = httpClientFactory.CreateClient(
-        nameof(CoinGeckoService)
-    );
+	private readonly HttpClient HttpClient = httpClientFactory.CreateClient(
+			nameof(CoinGeckoService)
+	);
 
-    public async Task<(
-        CoinGeckoMarketChart? Data,
-        string? Error
-    )> GetMarketChartAsync(
-        string coinId = "bitcoin",
-        string vsCurrency = "chf",
-        TimeRange days = TimeRange.Day,
-        CancellationToken cancellationToken = default
-    )
-    {
-        var url =
-            $"coins/{coinId}/market_chart?vs_currency={vsCurrency}&days={Convert.ToInt32(days)}";
-        try
-        {
-            var response =
-                await HttpClient.GetFromJsonAsync<CoinGeckoMarketChart>(
-                    url,
-                    cancellationToken
-                );
-            return (response, null);
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine($"Request failed: {ex.Message}");
-            return (null, ex.Message);
-        }
-    }
+	public async Task<(
+			CoinGeckoMarketChart? Data,
+			string? Error
+	)> GetMarketChartAsync(
+			string coinId = "bitcoin",
+			string vsCurrency = "chf",
+			TimeRange days = TimeRange.Day,
+			CancellationToken cancellationToken = default
+	)
+	{
+		var url =
+				$"coins/{coinId}/market_chart?vs_currency={vsCurrency}&days={Convert.ToInt32(days)}";
+		try
+		{
+			var response =
+					await HttpClient.GetFromJsonAsync<CoinGeckoMarketChart>(
+							url,
+							cancellationToken
+					);
+			return (response, null);
+		}
+		catch (HttpRequestException ex)
+		{
+			Console.WriteLine($"Request failed: {ex.Message}");
+			return (null, ex.Message);
+		}
+	}
 }
 
 

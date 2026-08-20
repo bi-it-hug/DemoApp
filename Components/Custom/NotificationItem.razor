@@ -1,65 +1,55 @@
 ﻿@inject NavigationManager NavigationManager
 
-<MudMenuItem OnClick="@(() => NavigationManager.NavigateTo(Href))" Class="pa-2 rounded">
-  <MudStack Row="true">
-    <MudIcon Size="Size.Small" Icon="CurrentIcon" Color="CurrentColor" />
+<div id="@Notification.Id">
+	<MudMenuItem OnClick="@(() => NavigationManager.NavigateTo(Notification.Href))" Class="pa-2 rounded"
+							 Style="max-width: 400px;">
+		<div style="display: grid; grid-template-columns: auto 1fr auto; grid-template-rows: auto; column-gap: 8px;">
+			<MudIcon Size="Size.Small" Icon="@CurrentIcon" Color="@CurrentColor" Style="grid-column: 1; grid-row: 1"
+							 Class="notification-icon" />
 
-    <MudStack Justify="Justify.FlexStart" AlignItems="AlignItems.Start" Spacing="1" Style="max-width: 300px">
-      <MudText Typo="Typo.body1" Color="CurrentColor">
-        @Title
-      </MudText>
+			<MudText Typo="Typo.body1" Color="CurrentColor" Style="grid-column: 2; grid-row: 1; font-weight: 500;">
+				@Notification.Title
+			</MudText>
 
-      <MudText Typo="Typo.body2" Class="mud-text-disabled">
-        @Description
-      </MudText>
-    </MudStack>
+			<MudText Typo="Typo.body2" Class="mud-text-disabled" Style="grid-column: 2; grid-row: 2">
+				@Notification.Description
+			</MudText>
 
-    <MudStack Class="ml-auto">
-      <MudIconButton Size="Size.Small" Variant="Variant.Outlined" Icon="@Icons.Material.Rounded.DoneAll"
-                     OnClick="OnRemove" Class="pa-0 clear" />
-    </MudStack>
-  </MudStack>
-</MudMenuItem>
+			<MudIconButton Size="Size.Small" Variant="Variant.Text" Icon="@Icons.Material.Rounded.DoneAll" OnClick="OnRemove"
+										 Style="grid-column: 3; grid-row: 1;" Class="item-clear" />
+
+			<MudText Typo="Typo.caption" Class="mud-text-disabled" Style="grid-column: 2; grid-row: 3">
+				@Notification.Timestamp.ToString("HH:mm:ss.fff")
+			</MudText>
+		</div>
+	</MudMenuItem>
+</div>
 
 @code
 {
-  [Parameter]
-  public required string Href { get; set; }
+	[Parameter]
+	public required Notification Notification { get; set; }
 
-  [Parameter]
-  public required string Title { get; set; }
+	[Parameter]
+	public EventCallback OnRemove { get; set; }
 
-  [Parameter]
-  public required string Description { get; set; }
+	public string CurrentIcon => Notification.Severity switch
+	{
+		Severity.Normal => Icons.Custom.Brands.MudBlazor,
+		Severity.Info => Icons.Material.Rounded.Info,
+		Severity.Success => Icons.Material.Rounded.CheckCircle,
+		Severity.Warning => Icons.Material.Rounded.Warning,
+		Severity.Error => Icons.Material.Rounded.Error,
+		_ => Icons.Custom.Brands.MudBlazor
+	};
 
-  [Parameter]
-  public required Severity Severity { get; set; }
-
-  [Parameter]
-  public EventCallback OnRemove { get; set; }
-
-  public string CurrentIcon => Severity switch
-  {
-    Severity.Normal => Icons.Custom.Brands.MudBlazor,
-    Severity.Info => Icons.Material.Rounded.Info,
-    Severity.Success => Icons.Material.Rounded.CheckCircle,
-    Severity.Warning => Icons.Material.Rounded.Warning,
-    Severity.Error => Icons.Material.Rounded.Error,
-    _ => Icons.Custom.Brands.MudBlazor
-  };
-
-  public Color CurrentColor => Severity switch
-  {
-    Severity.Normal => Color.Default,
-    Severity.Info => Color.Info,
-    Severity.Success => Color.Success,
-    Severity.Warning => Color.Warning,
-    Severity.Error => Color.Error,
-    _ => Color.Default
-  };
-
-  protected override void OnInitialized()
-  {
-    Console.WriteLine(Href);
-  }
+	public Color CurrentColor => Notification.Severity switch
+	{
+		Severity.Normal => Color.Default,
+		Severity.Info => Color.Info,
+		Severity.Success => Color.Success,
+		Severity.Warning => Color.Warning,
+		Severity.Error => Color.Error,
+		_ => Color.Default
+	};
 }

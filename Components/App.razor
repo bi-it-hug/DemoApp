@@ -62,29 +62,29 @@
 				color: var(--mud-palette-text-disabled);
 			}
 
-			.clear .mud-icon-root {
-				padding: 2px;
-			}
-
 			.mud-card-header-actions {
 				margin: 0 !important;
 			}
 
 			/* Custom Button Sizes */
 
-			.mud-icon-button-size-small,
+			.mud-icon-button-size-small:not(.item-clear),
 			.mud-button-outlined-size-small {
 				height: 28px;
 			}
 
-			.mud-icon-button-size-small {
+			.mud-icon-button-size-small:not(.item-clear) {
 				width: 28px;
 			}
 
-			.mud-icon-size-small,
+			.mud-icon-size-small:not(.notification-icon),
 			.mud-icon-size-medium {
 				width: 16px;
 				height: 16px;
+			}
+
+			.item-clear {
+				padding: 2px !important;
 			}
 
 			.mud-button-outlined-size-medium {

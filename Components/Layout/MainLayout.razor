@@ -9,158 +9,157 @@
 <MudDialogProvider MaxWidth="MaxWidth.ExtraSmall" CloseButton="false" FullWidth="true" />
 
 <MudThemeProvider @ref="ThemeProvider" Theme="Theme" IsDarkMode="AppStateService.IsDarkMode"
-                  IsDarkModeChanged="OnIsDarkModeChanged" ObserveSystemDarkModeChange="ObserveSystemDarkMode" DefaultScrollbar />
+									IsDarkModeChanged="OnIsDarkModeChanged" ObserveSystemDarkModeChange="ObserveSystemDarkMode" DefaultScrollbar />
 
 <MudLayout>
-  <MudBreakpointProvider>
-    @if (!AppStateService.IsInitialized)
-    {
-      <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mud-width-full mud-height-full">
-        <MudProgressCircular Indeterminate="true" />
-      </MudStack>
-    }
-    else
-    {
-      <MudAppBar ToolBarClass="px-4">
-        @if (PageFound)
-        {
-          <Breadcrumbs />
-        }
+	<MudBreakpointProvider>
+		@if (!AppStateService.IsInitialized)
+		{
+			<MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mud-width-full mud-height-full">
+				<MudProgressCircular Indeterminate="true" />
+			</MudStack>
+		}
+		else
+		{
+			<MudAppBar ToolBarClass="px-4">
+				@if (PageFound)
+				{
+					<Breadcrumbs />
+				}
 
-        <MudSpacer />
+				<MudSpacer />
 
-        <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Row="true">
-          @if (PageFound)
-          {
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="AddTestNotification">
-              Notification Test
-            </MudButton>
-            <NotificationMenu />
-          }
-          <ThemeSwitch />
-        </MudStack>
-      </MudAppBar>
+				<MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Row="true">
+					@if (PageFound)
+					{
+						<MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="AddTestNotification">
+							Notification Test
+						</MudButton>
+						<NotificationMenu />
+					}
+					<ThemeSwitch />
+				</MudStack>
+			</MudAppBar>
 
-      @if (PageFound)
-      {
-        <MudDrawer Open="AppStateService.Settings.IsDrawerOpen" OpenChanged="AppStateService.SetDrawerOpenAsync"
-                   Variant="DrawerVariant.Mini" ClipMode="DrawerClipMode.Never" Breakpoint="Breakpoint.Sm"
-                   Class="border-r mud-border-tertiary pa-3">
-          <SidebarToggle />
+			@if (PageFound)
+			{
+				<MudDrawer Open="AppStateService.Settings.IsDrawerOpen" OpenChanged="AppStateService.SetDrawerOpenAsync"
+									 Variant="DrawerVariant.Mini" ClipMode="DrawerClipMode.Never" Breakpoint="Breakpoint.Sm"
+									 Class="border-r mud-border-tertiary pa-3">
+					<SidebarToggle />
 
-          <MudDivider Class="my-2" Style="flex-grow: 0" />
+					<MudDivider Class="my-2" Style="flex-grow: 0" />
 
-          <NavMenu />
+					<NavMenu />
 
-          <MudSpacer />
+					<MudSpacer />
 
-          <MudDivider Class="my-2" Style="flex-grow: 0" />
+					<MudDivider Class="my-2" Style="flex-grow: 0" />
 
-          <MudNavMenu Margin="Margin.Dense" Class="d-flex flex-column gap-1" Rounded="true" Dense="true">
-            <TooltipNavLink OnClick="OpenSettingsDialogAsync" Match="NavLinkMatch.Prefix"
-                            Icon="@Icons.Material.Rounded.Settings">
-              Settings
-            </TooltipNavLink>
-          </MudNavMenu>
-        </MudDrawer>
-      }
+					<MudNavMenu Margin="Margin.Dense" Class="d-flex flex-column gap-1" Rounded="true" Dense="true">
+						<TooltipNavLink OnClick="OpenSettingsDialogAsync" Match="NavLinkMatch.Prefix"
+														Icon="@Icons.Material.Rounded.Settings">
+							Settings
+						</TooltipNavLink>
+					</MudNavMenu>
+				</MudDrawer>
+			}
 
-      <MudMainContent Class="d-flex justify-center align-center mud-height-full"
-                      Style="background-color: var(--mud-palette-appbar-background)">
-        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Gutters="false" Class="mud-height-full"
-                      Style="background-color: var(--mud-palette-background)">
-          @Body
-        </MudContainer>
-      </MudMainContent>
-    }
-  </MudBreakpointProvider>
+			<MudMainContent Class="d-flex justify-center align-center mud-height-full"
+											Style="background-color: var(--mud-palette-appbar-background)">
+				<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Gutters="false" Class="mud-height-full"
+											Style="background-color: var(--mud-palette-background)">
+					@Body
+				</MudContainer>
+			</MudMainContent>
+		}
+	</MudBreakpointProvider>
 </MudLayout>
 
 @code
 {
-  private readonly MudTheme Theme = DemoApp.Theme.Theme.Create();
-  private MudThemeProvider ThemeProvider = default!;
-  private bool PageFound = false;
+	private readonly MudTheme Theme = DemoApp.Theme.Theme.Create();
+	private MudThemeProvider ThemeProvider = default!;
+	private bool PageFound = false;
 
-  private Task OpenSettingsDialogAsync()
-  {
-    DialogOptions Options = new() { };
-    return DialogService.ShowAsync<SettingsDialog>("", Options);
-  }
+	private Task OpenSettingsDialogAsync()
+	{
+		DialogOptions Options = new() { };
+		return DialogService.ShowAsync<SettingsDialog>("", Options);
+	}
 
-  public async Task AddTestNotification()
-  {
-    Notification TestNotification = new(
-        "playground?dialog=test",
-        "Lorem ipsum dolor sit amet",
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        Severity.Success
-    );
+	public async Task AddTestNotification()
+	{
+		Notification TestNotification = new(
+			"playground?dialog=test",
+			"Lorem ipsum dolor sit amet",
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+			Severity.Success
+		);
 
-    Snackbar.Add(TestNotification.Title, TestNotification.Severity);
-    await NotificationService.AddAsync(TestNotification);
-  }
+		await NotificationService.AddAsync(TestNotification, true);
+	}
 
-  private bool ObserveSystemDarkMode => AppStateService.Settings.ThemeMode == ThemeMode.System;
+	private bool ObserveSystemDarkMode => AppStateService.Settings.ThemeMode == ThemeMode.System;
 
-  protected override void OnInitialized()
-  {
-    base.OnInitialized();
-    NavigationManager.LocationChanged += OnLocationChanged;
-    UpdatePageFound(NavigationManager.Uri);
-  }
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		NavigationManager.LocationChanged += OnLocationChanged;
+		UpdatePageFound(NavigationManager.Uri);
+	}
 
-  private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-  {
-    UpdatePageFound(e.Location);
-    _ = InvokeAsync(StateHasChanged);
-  }
+	private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+	{
+		UpdatePageFound(e.Location);
+		_ = InvokeAsync(StateHasChanged);
+	}
 
-  private void UpdatePageFound(string uri)
-  {
-    var relativePath = NavigationManager.ToBaseRelativePath(uri);
-    PageFound = !relativePath.Equals("not-found", StringComparison.OrdinalIgnoreCase);
-  }
+	private void UpdatePageFound(string uri)
+	{
+		var relativePath = NavigationManager.ToBaseRelativePath(uri);
+		PageFound = !relativePath.Equals("not-found", StringComparison.OrdinalIgnoreCase);
+	}
 
-  protected override async Task OnAfterRenderAsync(bool firstRender)
-  {
-    if (!firstRender) return;
-    await AppStateService.InitializeAsync();
-    await SyncResolvedThemeAsync();
-  }
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender) return;
+		await AppStateService.InitializeAsync();
+		await SyncResolvedThemeAsync();
+	}
 
-  private void OnIsDarkModeChanged(bool value)
-  {
-    if (!ObserveSystemDarkMode) return;
-    AppStateService.SetResolvedTheme(value);
-  }
+	private void OnIsDarkModeChanged(bool value)
+	{
+		if (!ObserveSystemDarkMode) return;
+		AppStateService.SetResolvedTheme(value);
+	}
 
-  private async Task SyncResolvedThemeAsync()
-  {
-    var isDarkMode = AppStateService.Settings.ThemeMode switch
-    {
-      ThemeMode.Dark => true,
-      ThemeMode.Light => false,
-      _ => await ThemeProvider.GetSystemDarkModeAsync()
-    };
+	private async Task SyncResolvedThemeAsync()
+	{
+		var isDarkMode = AppStateService.Settings.ThemeMode switch
+		{
+			ThemeMode.Dark => true,
+			ThemeMode.Light => false,
+			_ => await ThemeProvider.GetSystemDarkModeAsync()
+		};
 
-    AppStateService.SetResolvedTheme(isDarkMode);
-  }
+		AppStateService.SetResolvedTheme(isDarkMode);
+	}
 
-  protected override void OnAppStateChanged()
-  {
-    _ = InvokeAsync(SyncResolvedThemeAsync);
-  }
+	protected override void OnAppStateChanged()
+	{
+		_ = InvokeAsync(SyncResolvedThemeAsync);
+	}
 
-  public override void Dispose()
-  {
-    NavigationManager.LocationChanged -= OnLocationChanged;
-    base.Dispose();
-  }
+	public override void Dispose()
+	{
+		NavigationManager.LocationChanged -= OnLocationChanged;
+		base.Dispose();
+	}
 }
 
 <div id="blazor-error-ui" data-nosnippet>
-  An unhandled error has occurred.
-  <a href="." class="reload">Reload</a>
-  <span class="dismiss">🗙</span>
+	An unhandled error has occurred.
+	<a href="." class="reload">Reload</a>
+	<span class="dismiss">🗙</span>
 </div>

@@ -1,21 +1,55 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "DemoApp (http)",
-            "type": "coreclr",
-            "request": "attach",
-            "processName": "DemoApp",
-            "preLaunchTask": "watch (http)",
-            "postDebugTask": "terminate-watch"
-        },
-        {
-            "name": "DemoApp (https)",
-            "type": "coreclr",
-            "request": "attach",
-            "processName": "DemoApp",
-            "preLaunchTask": "watch (https)",
-            "postDebugTask": "terminate-watch"
-        }
-    ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "DemoApp (http)",
+			"type": "coreclr",
+			"request": "launch",
+			"program": "dotnet",
+			"args": [
+				"watch",
+				"--non-interactive",
+				"--project",
+				"${workspaceFolder}/DemoApp.csproj",
+				"--launch-profile",
+				"http"
+			],
+			"cwd": "${workspaceFolder}",
+			"stopAtEntry": false,
+			"console": "integratedTerminal",
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+			},
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER": "1"
+			}
+		},
+		{
+			"name": "DemoApp (https)",
+			"type": "coreclr",
+			"request": "launch",
+			"program": "dotnet",
+			"args": [
+				"watch",
+				"--non-interactive",
+				"--project",
+				"${workspaceFolder}/DemoApp.csproj",
+				"--launch-profile",
+				"https"
+			],
+			"cwd": "${workspaceFolder}",
+			"stopAtEntry": false,
+			"console": "integratedTerminal",
+			"serverReadyAction": {
+				"action": "openExternally",
+				"pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+			},
+			"env": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER": "1"
+			}
+		}
+	]
 }

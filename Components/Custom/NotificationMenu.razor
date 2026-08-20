@@ -1,91 +1,82 @@
 ﻿@implements IDisposable
 
 <MudBadge Origin="Origin.TopRight" Content="NotificationService.Notifications.Count"
-          Visible="@(NotificationService.IsInitialized && NotificationService.Notifications.Count > 0)" Color="Color.Error"
-          Bordered Overlap>
-  <MudMenu Icon="@Icons.Material.Rounded.Notifications" Variant="Variant.Outlined" Size="Size.Small"
-           AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="600"
-           PopoverClass="border mud-border-tertiary mt-1" Dense="true">
-    <MudStack Justify="Justify.FlexStart" AlignItems="AlignItems.Center" Spacing="2"
-              Class="py-1 pl-2 pr-1 z-10 mud-width-full sticky border-b mud-border-tertiary notification-header"
-              Style="top: 0;background-color: var(--mud-palette-surface);" Row="true">
-      <MudText Typo="Typo.body2">
-        Notifications
-      </MudText>
+					Visible="@(NotificationService.IsInitialized && NotificationService.Notifications.Count > 0)" Color="Color.Error"
+					Bordered Overlap>
+	<MudMenu Icon="@Icons.Material.Rounded.Notifications" Variant="Variant.Outlined" Size="Size.Small"
+					 AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="600"
+					 PopoverClass="border mud-border-tertiary mt-1" Dense="true">
+		<MudStack Justify="Justify.FlexStart" AlignItems="AlignItems.Center" Spacing="2"
+							Class="py-1 pl-2 pr-1 z-10 mud-width-full sticky border-b mud-border-tertiary notification-header"
+							Style="top: 0; background-color: var(--mud-palette-surface);" Row="true">
+			<MudText Typo="Typo.body2">
+				Notifications
+			</MudText>
 
-      <MudTooltip Text="Clear All" Disabled="IsEmpty" Placement="Placement.Right" Arrow="true">
-        <MudIconButton Icon="@Icons.Material.Rounded.DoneAll" Variant="Variant.Text" Size="Size.Small"
-                       OnClick="NotificationService.ClearAsync" Disabled="IsEmpty" Class="pa-0 clear" />
-      </MudTooltip>
-    </MudStack>
+			<MudTooltip Text="Clear All" Disabled="IsEmpty" Placement="Placement.Right" Arrow="true">
+				<MudIconButton Icon="@Icons.Material.Rounded.DoneAll" Variant="Variant.Text" Size="Size.Small"
+											 OnClick="NotificationService.ClearAsync" Disabled="IsEmpty" Class="pa-0 clear" />
+			</MudTooltip>
+		</MudStack>
 
-    @if (IsEmpty)
-    {
-      <MudStack Spacing="1" Justify="Justify.Center" AlignItems="AlignItems.Center" Class="pa-8" Style="width: 300px;">
-        <MudPaper Class="d-flex pa-2 mb-2" Style="background-color: var(--mud-palette-action-disabled-background)">
-          <MudIcon Icon="@Icons.Material.Rounded.NotificationsNone" Size="Size.Small" />
-        </MudPaper>
+		@if (IsEmpty)
+		{
+			<MudStack Spacing="1" Justify="Justify.Center" AlignItems="AlignItems.Center" Class="pa-8" Style="width: 300px;">
+				<MudPaper Class="d-flex pa-2 mb-2" Style="background-color: var(--mud-palette-action-disabled-background)">
+					<MudIcon Icon="@Icons.Material.Rounded.NotificationsNone" Size="Size.Small" />
+				</MudPaper>
 
-        <MudText Typo="Typo.body1" Align="Align.Center">
-          No notifications
-        </MudText>
+				<MudText Typo="Typo.body1" Align="Align.Center">
+					No notifications
+				</MudText>
 
-        <MudText Typo="Typo.body2" Align="Align.Center" Class="mud-text-disabled">
-          You're all caught up. New notifications will appear here.
-        </MudText>
-      </MudStack>
-    }
-    else
-    {
-      <MudStack Spacing="0" Class="pa-1">
-        @for (var index = 0; index < NotificationService.Notifications.Count; index++)
-        {
-          var item = NotificationService.Notifications[index];
+				<MudText Typo="Typo.body2" Align="Align.Center" Class="mud-text-disabled">
+					You're all caught up. New notifications will appear here.
+				</MudText>
+			</MudStack>
+		}
+		else
+		{
+			<MudStack Spacing="0" Class="pa-1">
+				@for (var index = 0; index < NotificationService.Notifications.Count; index++)
+				{
+					var item = NotificationService.Notifications[index];
+					<NotificationItem Notification="@item" OnRemove="@(() => NotificationService.RemoveAsync(item.Id))" />
 
-          <NotificationItem Href="item.Href" Title="item.Title" Description="item.Description" Severity="item.Severity"
-                            OnRemove="@(() => NotificationService.RemoveAsync(item.Id))" />
-
-          @if (index < NotificationService.Notifications.Count - 1)
-          {
-            <MudDivider Class="my-1" />
-          }
-        }
-      </MudStack>
-    }
-  </MudMenu>
+					@if (index < NotificationService.Notifications.Count - 1)
+					{
+						<MudDivider Class="my-1" />
+					}
+				}
+			</MudStack>
+		}
+	</MudMenu>
 </MudBadge>
 
 @code
 {
-  public bool IsEmpty { get; set; } = true;
+	public bool IsEmpty { get; set; } = true;
 
-  protected override void OnInitialized()
-  {
-    NotificationService.Changed += OnNotificationsChanged;
-    UpdateEmptyState();
-  }
+	protected override void OnInitialized()
+	{
+		NotificationService.Changed += OnNotificationsChanged;
+		UpdateEmptyState();
+	}
 
-  protected override async Task OnAfterRenderAsync(bool firstRender)
-  {
-    if (!firstRender) return;
-    await NotificationService.InitializeAsync();
-  }
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender) return;
+		await NotificationService.InitializeAsync();
+	}
 
-  private void OnNotificationsChanged()
-  {
-    _ = InvokeAsync(StateHasChanged);
-    UpdateEmptyState();
-  }
+	private void OnNotificationsChanged()
+	{
+		_ = InvokeAsync(StateHasChanged);
+		UpdateEmptyState();
+	}
 
-  /*
-  public void Dispose()
-  {
-      NotificationService.Changed -= OnNotificationsChanged;
-  }
-  */
-
-  public void UpdateEmptyState()
-  {
-    IsEmpty = NotificationService.Notifications.Count == 0;
-  }
+	public void UpdateEmptyState()
+	{
+		IsEmpty = NotificationService.Notifications.Count == 0;
+	}
 }

@@ -1,4 +1,5 @@
 ﻿@inject CoinGeckoService CoinGecko
+@inject ISnackbar Snackbar
 
 @page "/"
 
@@ -69,14 +70,11 @@
 
 @code
 {
+	private List<string> Coins = ["bitcoin", "ethereum", "tether", "solana"];
 	private List<ChartSeries<double>> Series = [];
 	private TimeRange Days = TimeRange.Day;
 	private bool Markers = false;
 	private string ErrorMessage = "";
-
-	private List<string> Coins = ["bitcoin", "ethereum", "tether", "solana"];
-
-	private int Count = 0;
 
 	private async Task FetchData()
 	{
@@ -84,13 +82,20 @@
 
 		foreach (var coin in Coins)
 		{
-			Count++;
-			Console.WriteLine(Count);
 			var result = await CoinGecko.GetMarketChartAsync(days: Days, coinId: coin);
 			if (result.Error is not null)
 			{
 				ErrorMessage = result.Error;
 				Console.WriteLine("Error");
+
+				Notification ErrorNotification = new(
+					"",
+					$"Error while fetching data for \"{ToTitleCase(coin)}\"",
+					ErrorMessage,
+					Severity.Error
+				);
+
+				await NotificationService.AddAsync(ErrorNotification, true);
 			}
 			else
 			{
