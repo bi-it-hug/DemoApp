@@ -1,37 +1,26 @@
-﻿<MudStack
-    Justify="Justify.SpaceBetween"
-    AlignItems="AlignItems.Start"
-    Row
->
-    <MudStack
-        Spacing="1"
-        Class="mud-width-full"
-    >
-        <MudText
-            Typo="Typo.body2"
-        >
-            @Label
-        </MudText>
-        @if (Description != "")
-        {
-            <MudText
-                Typo="Typo.subtitle2"
-                Class="mud-text-disabled"
-            >
-                @Description
-            </MudText> 
-        }
-    </MudStack>
-    @ChildContent
+﻿<MudStack Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start" Row="true">
+	<MudStack Spacing="1" Class="mud-width-full">
+		<MudText Typo="Typo.body2">
+			@Label
+		</MudText>
+		@if (Description != "")
+		{
+			<MudText Typo="Typo.subtitle2" Class="mud-text-disabled">
+				@Description
+			</MudText>
+		}
+	</MudStack>
+	@ChildContent
 </MudStack>
 
-@code {
-    [Parameter]
-    public required string Label { get; set; }
+@code
+{
+	[Parameter]
+	public required string Label { get; set; }
 
-    [Parameter]
-    public string? Description { get; set; } = "";
+	[Parameter]
+	public string? Description { get; set; } = "";
 
-    [Parameter]
-    public required RenderFragment ChildContent { get; set; }
+	[Parameter]
+	public required RenderFragment ChildContent { get; set; }
 }

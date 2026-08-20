@@ -4,172 +4,109 @@
 
 <PageTitle>Home</PageTitle>
 
-<MudGrid
-    Spacing="4"
-    Class="mud-height-full pt-0 pb-0 px-4"
->
-    <MudItem
-        xs="12"
-    >
-        <SampleCard
-            Title="Some Values"
-            Description="Yes very good indeed"
-        >
-            <HeaderActions>
-                <MudStack
-                    Justify="Justify.Center"
-                    AlignItems="AlignItems.Center"
-                    Row
-                >
-                    <MudSwitch
-                        T="bool"
-                        Size="Size.Small"
-                        Value="Markers"
-                        ValueChanged="ToggleMarkers"
-                    />
+<MudGrid Spacing="4" Class="mud-height-full pt-0 pb-0 px-4">
+	<MudItem xs="12">
+		<SampleCard Title="Some Values" Description="Yes very good indeed">
+			<HeaderActions>
+				<MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Row="true">
+					<MudSwitch T="bool" Size="Size.Small" Value="Markers" ValueChanged="ToggleMarkers" />
 
-                    <MudSelect
-                        T="TimeRange"
-                        Variant="Variant.Outlined"
-                        Margin="Margin.Dense"
-                        Dense
-                        OpenIcon="@Icons.Material.Rounded.ArrowDropDown"
-                        CloseIcon="@Icons.Material.Rounded.ArrowDropUp"
-                        Class="my-0"
-                        InputClass="pa-1"
-                        PopoverClass="mt-1 border mud-border-tertiary rounded"
-                        ListClass="d-flex flex-column pa-1 gap-1"
-                        Style="width: 120px;"
-                        @bind-Value="Days"
-                        @bind-Value:after="FetchData"
-                    >
-                        @foreach (var timeRange in Enum.GetValues<TimeRange>())
-                        {
-                            <MudSelectItem
-                                T="TimeRange"
-                                Value="timeRange"
-                                Class="rounded pa-2"
-                                Style="white-space: nowrap"
-                            >
-                                @TimeRanges.Values[timeRange].Label
-                            </MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudStack>
-            </HeaderActions>
-            <Content>
-                @if (Series.Count == 0)
-                {
-                    <MudStack
-                        Justify="Justify.Center"
-                        AlignItems="AlignItems.Center"
-                        Class="mud-width-full mud-height-full"
-                    >
-                        <MudText Class="mud-text-disabled">
-                            @ErrorMessage
-                        </MudText>
-                    </MudStack>
-                }
-                else
-                {
-                    <TimeSeriesChart
-                        Series="Series"
-                        TimeRange="Days"
-                        ShowDataMarkers="Markers"
-                    />
-                }
-            </Content>
-        </SampleCard>
-    </MudItem>
+					<MudSelect T="TimeRange" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true"
+										 OpenIcon="@Icons.Material.Rounded.ArrowDropDown" CloseIcon="@Icons.Material.Rounded.ArrowDropUp"
+										 Class="my-0" InputClass="pa-1" PopoverClass="mt-1 border mud-border-tertiary rounded"
+										 ListClass="d-flex flex-column pa-1 gap-1" Style="width: 120px;" @bind-Value="Days"
+										 @bind-Value:after="FetchData">
+						@foreach (var timeRange in Enum.GetValues<TimeRange>())
+						{
+							<MudSelectItem T="TimeRange" Value="timeRange" Class="rounded pa-2" Style="white-space: nowrap">
+								@TimeRanges.Values[timeRange].Label
+							</MudSelectItem>
+						}
+					</MudSelect>
+				</MudStack>
+			</HeaderActions>
+			<Content>
+				@if (Series.Count == 0)
+				{
+					<MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mud-width-full mud-height-full">
+						<MudText Class="mud-text-disabled">
+							@ErrorMessage
+						</MudText>
+					</MudStack>
+				}
+				else
+				{
+					<TimeSeriesChart Series="Series" TimeRange="Days" ShowDataMarkers="Markers" />
+				}
+			</Content>
+		</SampleCard>
+	</MudItem>
 
-    <MudItem
-        xs="12"
-        sm="12"
-        md="6"
-    >
-        <SampleCard />
-    </MudItem>
+	<MudItem xs="12" sm="12" md="6">
+		<SampleCard />
+	</MudItem>
 
-    <MudItem
-        xs="12"
-        sm="12"
-        md="6"
-    >
-        <SampleCard />
-    </MudItem>
+	<MudItem xs="12" sm="12" md="6">
+		<SampleCard />
+	</MudItem>
 
-    <MudItem
-        xs="12"
-        sm="6"
-        md="3"
-    >
-        <SampleCard />
-    </MudItem>
+	<MudItem xs="12" sm="6" md="3">
+		<SampleCard />
+	</MudItem>
 
-    <MudItem
-        xs="12"
-        sm="6"
-        md="3"
-    >
-        <SampleCard />
-    </MudItem>
+	<MudItem xs="12" sm="6" md="3">
+		<SampleCard />
+	</MudItem>
 
-    <MudItem
-        xs="12"
-        sm="6"
-        md="3"
-    >
-        <SampleCard />
-    </MudItem>
+	<MudItem xs="12" sm="6" md="3">
+		<SampleCard />
+	</MudItem>
 
-    <MudItem
-        xs="12"
-        sm="6"
-        md="3"
-    >
-        <SampleCard />
-    </MudItem>
+	<MudItem xs="12" sm="6" md="3">
+		<SampleCard />
+	</MudItem>
 </MudGrid>
 
-@code {
-    private List<ChartSeries<double>> Series = [];
-    private TimeRange Days = TimeRange.Day;
-    private bool Markers = false;
-    private string ErrorMessage = "";
+@code
+{
+	private List<ChartSeries<double>> Series = [];
+	private TimeRange Days = TimeRange.Day;
+	private bool Markers = false;
+	private string ErrorMessage = "";
 
-    private List<string> Coins = ["bitcoin", "ethereum", "tether", "solana"];
+	private List<string> Coins = ["bitcoin", "ethereum", "tether", "solana"];
 
-    private int Count = 0;
+	private int Count = 0;
 
-    private async Task FetchData()
-    {
-        var series = new List<ChartSeries<double>>();
+	private async Task FetchData()
+	{
+		var series = new List<ChartSeries<double>>();
 
-        foreach (var coin in Coins)
-        {
-            Count++;
-            Console.WriteLine(Count);
-            var result = await CoinGecko.GetMarketChartAsync(days: Days, coinId: coin);
-            if (result.Error is not null)
-            {
-                ErrorMessage = result.Error;
-                Console.WriteLine("Error");
-            }
-            else
-            {
-                series.Add(TimeSeriesChart.CreateSeries(ToTitleCase(coin), result.Data?.Prices ?? default!));
-            }
-        }
-        Series = series;
-    }
+		foreach (var coin in Coins)
+		{
+			Count++;
+			Console.WriteLine(Count);
+			var result = await CoinGecko.GetMarketChartAsync(days: Days, coinId: coin);
+			if (result.Error is not null)
+			{
+				ErrorMessage = result.Error;
+				Console.WriteLine("Error");
+			}
+			else
+			{
+				series.Add(TimeSeriesChart.CreateSeries(ToTitleCase(coin), result.Data?.Prices ?? default!));
+			}
+		}
+		Series = series;
+	}
 
-    private void ToggleMarkers()
-    {
-        Markers = !Markers;
-    }
+	private void ToggleMarkers()
+	{
+		Markers = !Markers;
+	}
 
-    protected override async Task OnInitializedAsync()
-    {
-        await FetchData();
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		await FetchData();
+	}
 }

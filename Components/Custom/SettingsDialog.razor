@@ -1,137 +1,88 @@
-﻿<MudDialog
-    TitleClass="px-4 pt-4 pb-0 gap-1 d-flex justify-space-between align-start"
-    ContentClass="px-4 py-0"
-    ActionsClass="px-4 pb-4 pt-0"
-    Class="border mud-border-tertiary mud-dialog-width-xs gap-4"
->
-    <TitleContent>
-        <MudStack
-            Justify="Justify.SpaceBetween"
-            Class="mud-width-full"
-            Row
-        >
-            <MudStack Spacing="1">
-                <MudText Typo="Typo.body1">
-                    Settings
-                </MudText>
-                <MudText
-                    Typo="Typo.subtitle2"
-                    Class="mud-text-disabled"
-                >
-                    Manage your account settings and notifications.
-                </MudText>
-            </MudStack>
+﻿<MudDialog TitleClass="px-4 pt-4 pb-0 gap-1 d-flex justify-space-between align-start" ContentClass="px-4 py-0"
+					 ActionsClass="px-4 pb-4 pt-0" Class="border mud-border-tertiary mud-dialog-width-xs gap-4">
+	<TitleContent>
+		<MudStack Justify="Justify.SpaceBetween" Class="mud-width-full" Row="true">
+			<MudStack Spacing="1">
+				<MudText Typo="Typo.body1">
+					Settings
+				</MudText>
+				<MudText Typo="Typo.subtitle2" Class="mud-text-disabled">
+					Manage your account settings and notifications.
+				</MudText>
+			</MudStack>
 
-            <MudIconButton
-                Icon="@Icons.Material.Rounded.Close"
-                Variant="Variant.Filled"
-                Size="Size.Small"
-                OnClick="Cancel"
-                DropShadow="false"
-            />
-        </MudStack>
-    </TitleContent>
-    <DialogContent>
-        <MudStack Spacing="3">
-            <MudStack Spacing="1">
-                <MudText Typo="Typo.body2">
-                    Theme
-                </MudText>
+			<MudIconButton Icon="@Icons.Material.Rounded.Close" Variant="Variant.Filled" Size="Size.Small" OnClick="Cancel"
+										 DropShadow="false" />
+		</MudStack>
+	</TitleContent>
+	<DialogContent>
+		<MudStack Spacing="3">
+			<MudStack Spacing="1">
+				<MudText Typo="Typo.body2">
+					Theme
+				</MudText>
 
-                <MudSelect
-                    T="ThemeMode"
-                    Variant="Variant.Outlined"
-                    Margin="Margin.Dense"
-                    Dense
-                    OpenIcon="@Icons.Material.Rounded.ArrowDropDown"
-                    CloseIcon="@Icons.Material.Rounded.ArrowDropUp"
-                    Class="my-0"
-                    InputClass="pa-1"
-                    PopoverClass="mt-1 border mud-border-tertiary rounded"
-                    ListClass="d-flex flex-column pa-1 gap-1"
-                    Value="AppStateService.Settings.ThemeMode"
-                    ValueChanged="AppStateService.SetThemeModeAsync"
-                >
-                    @foreach (var variant in Enum.GetValues<ThemeMode>())
-                    {
-                        <MudSelectItem
-                            T="ThemeMode"
-                            Value="@variant"
-                            Class="rounded pa-2"
-                        >
-                            @variant
-                        </MudSelectItem>
-                    }
-                </MudSelect>
-            </MudStack>
-                <MudDivider />
+				<MudSelect T="ThemeMode" Variant="Variant.Outlined" Margin="Margin.Dense" Dense="true"
+									 OpenIcon="@Icons.Material.Rounded.ArrowDropDown" CloseIcon="@Icons.Material.Rounded.ArrowDropUp" Class="my-0"
+									 InputClass="pa-1" PopoverClass="mt-1 border mud-border-tertiary rounded"
+									 ListClass="d-flex flex-column pa-1 gap-1" Value="AppStateService.Settings.ThemeMode"
+									 ValueChanged="AppStateService.SetThemeModeAsync">
+					@foreach (var variant in Enum.GetValues<ThemeMode>())
+					{
+						<MudSelectItem T="ThemeMode" Value="@variant" Class="rounded pa-2">
+							@variant
+						</MudSelectItem>
+					}
+				</MudSelect>
+			</MudStack>
+			<MudDivider />
 
-                <SettingsRow
-                    Label="Sidebar"
-                    Description="Allow others to see your total stream count and listening activity"
-                >
-                    <MudSwitch
-                        T="bool"
-                        Size="Size.Small"
-                        Value="AppStateService.Settings.IsDrawerOpen"
-                        ValueChanged="AppStateService.SetDrawerOpenAsync"
-                    />
-                </SettingsRow>
+			<SettingsRow Label="Sidebar" Description="Allow others to see your total stream count and listening activity">
+				<MudSwitch T="bool" Size="Size.Small" Value="AppStateService.Settings.IsDrawerOpen"
+									 ValueChanged="AppStateService.SetDrawerOpenAsync" />
+			</SettingsRow>
 
-                <MudDivider />
+			<MudDivider />
 
-                <SettingsRow
-                    Label="Some Toggle"
-                    Description="Allow others to see your total stream count and listening activity"
-                >
-                    <MudSwitch
-                        T="bool"
-                        Size="Size.Small"
-                        Value="AppStateService.Settings.TestSwitch"
-                        ValueChanged="AppStateService.SetTestSwitchAsync" />
-                </SettingsRow>
-        </MudStack>
-    </DialogContent>
-    <DialogActions>
-        <MudStack
-            Justify="Justify.SpaceBetween"
-            Class="mud-width-full"
-            Row
-        >
-            <MudButton
-                Variant="Variant.Outlined"
-                OnClick="Reset"
-                FullWidth
-            >
-                Reset
-            </MudButton>
-        </MudStack>
-    </DialogActions>
+			<SettingsRow Label="Some Toggle" Description="Allow others to see your total stream count and listening activity">
+				<MudSwitch T="bool" Size="Size.Small" Value="AppStateService.Settings.TestSwitch"
+									 ValueChanged="AppStateService.SetTestSwitchAsync" />
+			</SettingsRow>
+		</MudStack>
+	</DialogContent>
+	<DialogActions>
+		<MudStack Justify="Justify.SpaceBetween" Class="mud-width-full" Row="true">
+			<MudButton Variant="Variant.Outlined" OnClick="Reset" FullWidth>
+				Reset
+			</MudButton>
+		</MudStack>
+	</DialogActions>
 </MudDialog>
 
-@code {
-    [CascadingParameter]
-    private IMudDialogInstance? MudDialog { get; set; }
+@code
+{
+	[CascadingParameter]
+	private IMudDialogInstance? MudDialog { get; set; }
 
-    private async Task Reset()
-    {
-        await AppStateService.SetSettings(new AppSettings());
-    }
+	private async Task Reset()
+	{
+		await AppStateService.SetSettings(new AppSettings());
+	}
 
-    private async Task Close()
-    {
-        MudDialog?.Close(DialogResult.Ok(true));
-    }
+	private async Task Close()
+	{
+		MudDialog?.Close(DialogResult.Ok(true));
+	}
 
-    private void Cancel()
-    {
-        MudDialog?.Cancel();
-    }
+	private void Cancel()
+	{
+		MudDialog?.Cancel();
+	}
 
-    private string GetIcon(ThemeMode mode) => mode switch
-    {
-        ThemeMode.Light => Icons.Material.Rounded.LightMode,
-        ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
-        _ => Icons.Material.Rounded.AutoMode
-    };
+	private string GetIcon(ThemeMode mode) => mode switch
+	{
+		ThemeMode.Light => Icons.Material.Rounded.LightMode,
+		ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
+		_ => Icons.Material.Rounded.AutoMode
+	};
 }

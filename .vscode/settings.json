@@ -1,4 +1,9 @@
 {
-  "dotnet.defaultSolution": "disable",
-  "debug.openDebug": "openOnDebugBreak"
+	"dotnet.defaultSolution": "disable",
+	"debug.openDebug": "openOnDebugBreak",
+	// "editor.rulers": [
+	// 	80
+	// ],
+	// "editor.wordWrap": "wordWrapColumn",
+	// "editor.wordWrapColumn": 80
 }

@@ -1,43 +1,25 @@
 ﻿@* PopoverClass="border mud-border-tertiary mt-1 pa-1" *@
 
 @* Dropdown Menu *@
-<MudMenu
-    Icon="CurrentIcon"
-    Size="Size.Small"
-    Variant="Variant.Outlined"
-    TransformOrigin="Origin.TopRight"
-    AnchorOrigin="Origin.BottomRight"
-    PopoverClass="border mud-border-tertiary mt-1 pa-1"
-    ListClass="d-flex flex-column gap-1"
-    Dense
->
-    <MudMenuItem
-        Icon="@Icons.Material.Rounded.AutoMode"
-        Label="System"
-        OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.System))"
-        Class="pa-2 rounded"
-    />
-    <MudMenuItem
-        Icon="@Icons.Material.Rounded.LightMode"
-        Label="Light"
-        OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.Light))"
-        Class="pa-2 rounded"
-    />
-    <MudMenuItem
-        Icon="@Icons.Material.Rounded.DarkMode"
-        Label="Dark"
-        OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.Dark))"
-        Class="pa-2 rounded"
-    />
+<MudMenu Icon="CurrentIcon" Size="Size.Small" Variant="Variant.Outlined" TransformOrigin="Origin.TopRight"
+         AnchorOrigin="Origin.BottomRight" PopoverClass="border mud-border-tertiary mt-1 pa-1"
+         ListClass="d-flex flex-column gap-1" Dense="true">
+  <MudMenuItem Icon="@Icons.Material.Rounded.AutoMode" Label="System"
+               OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.System))" Class="pa-2 rounded" />
+  <MudMenuItem Icon="@Icons.Material.Rounded.LightMode" Label="Light"
+               OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.Light))" Class="pa-2 rounded" />
+  <MudMenuItem Icon="@Icons.Material.Rounded.DarkMode" Label="Dark"
+               OnClick="@(() => AppStateService.SetThemeModeAsync(ThemeMode.Dark))" Class="pa-2 rounded" />
 </MudMenu>
 
-@code {
-    private string CurrentIcon => AppStateService.Settings.ThemeMode switch
-    {
-        ThemeMode.Light => Icons.Material.Rounded.LightMode,
-        ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
-        _ => Icons.Material.Rounded.AutoMode
-    };
+@code
+{
+  private string CurrentIcon => AppStateService.Settings.ThemeMode switch
+  {
+    ThemeMode.Light => Icons.Material.Rounded.LightMode,
+    ThemeMode.Dark => Icons.Material.Rounded.DarkMode,
+    _ => Icons.Material.Rounded.AutoMode
+  };
 }
 
 @* Simple Button *@
@@ -45,7 +27,7 @@
 <MudTooltip
     Text="@($"Switch to {(AppState.Settings.IsDarkMode ? "Light" : "Dark")} Mode")"
     Placement="Placement.Left"
-    Arrow
+    Arrow="true"
 >
     <MudIconButton
         Variant="Variant.Text"

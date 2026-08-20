@@ -1,63 +1,55 @@
 <style>
-    .active {
-        background-color: color-mix(in srgb, var(--mud-palette-primary) 10%, transparent) !important;
-    }
+	.active {
+		background-color: color-mix(in srgb, var(--mud-palette-primary) 10%, transparent) !important;
+	}
 
-    .active .mud-nav-link-text,
-    .active .mud-nav-link-icon {
-        color: var(--mud-palette-primary) !important;
-        font-weight: normal;
-    }
+	.active .mud-nav-link-text,
+	.active .mud-nav-link-icon {
+		color: var(--mud-palette-primary) !important;
+		font-weight: normal;
+	}
 </style>
 
 @if (AppStateService.Settings.IsDrawerOpen)
 {
-    @NavLink
+	@NavLink
 }
 else
 {
-    <MudTooltip
-        Placement="Placement.Right"
-        Arrow
-    >
-        <ChildContent>
-            @NavLink
-        </ChildContent>
+	<MudTooltip Placement="Placement.Right" Arrow="true">
+		<ChildContent>
+			@NavLink
+		</ChildContent>
 
-        <TooltipContent>
-            @ChildContent
-        </TooltipContent>
-    </MudTooltip>
+		<TooltipContent>
+			@ChildContent
+		</TooltipContent>
+	</MudTooltip>
 }
 
-@code {
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+@code
+{
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
 
-    [Parameter]
-    public string? Href { get; set; }
+	[Parameter]
+	public string? Href { get; set; }
 
-    [Parameter]
-    public required NavLinkMatch Match { get; set; }
+	[Parameter]
+	public required NavLinkMatch Match { get; set; }
 
-    [Parameter]
-    public required string Icon { get; set; }
+	[Parameter]
+	public required string Icon { get; set; }
 
-    [Parameter]
-    public EventCallback OnClick { get; set; }
+	[Parameter]
+	public EventCallback OnClick { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
+	[Parameter]
+	public string? Class { get; set; }
 
-    private RenderFragment NavLink => @<MudNavLink
-        Href="@Href"
-        Match="@Match"
-        Icon="@Icon"
-        Class="@Class"
-        ActiveClass="active"
-        OnClick="@OnClick"
-        Style="white-space: nowrap">
-            @ChildContent
-        </MudNavLink>
-    ;
+	private RenderFragment NavLink => @<MudNavLink Href="@Href" Match="@Match" Icon="@Icon" Class="@Class"
+																								 ActiveClass="active" OnClick="@OnClick" Style="white-space: nowrap">
+		@ChildContent
+	</MudNavLink>
+;
 }

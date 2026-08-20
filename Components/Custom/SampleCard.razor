@@ -1,64 +1,52 @@
-﻿<MudCard
-    Class="mud-width-full mud-height-full"
-    Outlined
->
-    <MudCardHeader Class="flex-row align-start gap-1">
-        <CardHeaderContent>
-            <MudStack Spacing="2">
-                <MudText Typo="Typo.body1">
-                    @Title
-                </MudText>
-                <MudText
-                    Typo="Typo.body2"
-                    Class="mud-text-disabled"
-                >
-                    @Description
-                </MudText>
-            </MudStack>
-        </CardHeaderContent>
-        <CardHeaderActions>
-            @HeaderActions
-        </CardHeaderActions>
-    </MudCardHeader>
-    <MudCardContent Class="py-0">
-        @if (Content != null)
-        {
-            @Content
-        }
-        else
-        {
-            <MudPaper
-                Class="mud-width-full mud-height-full d-flex justify-center align-center border-dashed"
-                Outlined
-            >
-                <MudText Class="mud-text-disabled">
-                    Card Content
-                </MudText>
-            </MudPaper>
-        }
-    </MudCardContent>
-    <MudCardActions Class="pa-4">
-        <MudButton
-            StartIcon="@Icons.Material.Rounded.AdsClick"
-            IconSize="Size.Small"
-            Variant="Variant.Outlined"
-            DropShadow="false"
-        >
-            Manage
-        </MudButton>
-    </MudCardActions>
+﻿<MudCard Class="mud-width-full mud-height-full" Outlined="true">
+	<MudCardHeader Class="flex-row align-start gap-1">
+		<CardHeaderContent>
+			<MudStack Spacing="2">
+				<MudText Typo="Typo.body1">
+					@Title
+				</MudText>
+				<MudText Typo="Typo.body2" Class="mud-text-disabled">
+					@Description
+				</MudText>
+			</MudStack>
+		</CardHeaderContent>
+		<CardHeaderActions>
+			@HeaderActions
+		</CardHeaderActions>
+	</MudCardHeader>
+	<MudCardContent Class="py-0">
+		@if (Content != null)
+		{
+			@Content
+		}
+		else
+		{
+			<MudPaper Class="mud-width-full mud-height-full d-flex justify-center align-center border-dashed" Outlined="true">
+				<MudText Class="mud-text-disabled">
+					Card Content
+				</MudText>
+			</MudPaper>
+		}
+	</MudCardContent>
+	<MudCardActions Class="pa-4">
+		<MudButton StartIcon="@Icons.Material.Rounded.AdsClick" IconSize="Size.Small" Variant="Variant.Outlined"
+							 DropShadow="false">
+			Manage
+		</MudButton>
+	</MudCardActions>
 </MudCard>
 
-@code {
-    [Parameter]
-    public string? Title { get; set; } = "Card Title";
+@code
+{
+	[Parameter]
+	public string? Title { get; set; } = "Card Title";
 
-    [Parameter]
-    public string? Description { get; set; } = "Card Description";
+	[Parameter]
+	public string? Description { get; set; } = "Card Description";
 
-    [Parameter]
-    public RenderFragment? Content { get; set; }
+	[Parameter]
+	public RenderFragment? Content { get; set; }
 
-    [Parameter]
-    public RenderFragment? HeaderActions { get; set; }
+	[Parameter]
+	public RenderFragment? HeaderActions { get; set; }
 }

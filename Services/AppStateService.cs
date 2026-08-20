@@ -19,8 +19,11 @@ public sealed class AppStateService(LocalStorageService storage)
 
     public async Task InitializeAsync()
     {
-        if (IsInitialized) return;
-        Settings = await storage.GetAsync<AppSettings>(StorageKey) ?? new AppSettings();
+        if (IsInitialized)
+            return;
+        Settings =
+            await storage.GetAsync<AppSettings>(StorageKey)
+            ?? new AppSettings();
 
         if (Settings.ThemeMode != ThemeMode.System)
             ResolvedTheme = Settings.ThemeMode;
@@ -31,14 +34,16 @@ public sealed class AppStateService(LocalStorageService storage)
 
     public async Task SetSettings(AppSettings settings)
     {
-        if (Settings == settings) return;
+        if (Settings == settings)
+            return;
         Settings = settings;
         await SaveAsync();
     }
 
     public async Task SetThemeModeAsync(ThemeMode mode)
     {
-        if (Settings.ThemeMode == mode) return;
+        if (Settings.ThemeMode == mode)
+            return;
         Settings.ThemeMode = mode;
 
         if (mode != ThemeMode.System)
@@ -50,21 +55,24 @@ public sealed class AppStateService(LocalStorageService storage)
     public void SetResolvedTheme(bool isDarkMode)
     {
         var theme = isDarkMode ? ThemeMode.Dark : ThemeMode.Light;
-        if (ResolvedTheme == theme) return;
+        if (ResolvedTheme == theme)
+            return;
         ResolvedTheme = theme;
         NotifyChanged();
     }
 
     public async Task SetDrawerOpenAsync(bool value)
     {
-        if (Settings.IsDrawerOpen == value) return;
+        if (Settings.IsDrawerOpen == value)
+            return;
         Settings.IsDrawerOpen = value;
         await SaveAsync();
     }
 
     public async Task SetTestSwitchAsync(bool value)
     {
-        if (Settings.TestSwitch == value) return;
+        if (Settings.TestSwitch == value)
+            return;
         Settings.TestSwitch = value;
         await SaveAsync();
     }

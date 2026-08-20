@@ -6,9 +6,11 @@ namespace DemoApp.Services;
 
 public sealed class LocalStorageService(IJSRuntime jsRuntime)
 {
-    private readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web)
+    private readonly JsonSerializerOptions _jsonOptions = new(
+        JsonSerializerDefaults.Web
+    )
     {
-        Converters = { new JsonStringEnumConverter() }
+        Converters = { new JsonStringEnumConverter() },
     };
 
     public async ValueTask SetAsync<T>(string key, T value)
@@ -21,8 +23,12 @@ public sealed class LocalStorageService(IJSRuntime jsRuntime)
     public async ValueTask<T?> GetAsync<T>(string key)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
-        var json = await jsRuntime.InvokeAsync<string?>("localStorage.getItem", key);
-        if (string.IsNullOrWhiteSpace(json)) return default;
+        var json = await jsRuntime.InvokeAsync<string?>(
+            "localStorage.getItem",
+            key
+        );
+        if (string.IsNullOrWhiteSpace(json))
+            return default;
 
         try
         {

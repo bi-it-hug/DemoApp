@@ -1,87 +1,65 @@
 ﻿@inject NavigationManager NavigationManager
 
-<MudMenuItem
-    OnClick="@(() => NavigationManager.NavigateTo(Href))"
-    Class="pa-2 rounded"
->
-    <MudStack Row>
-        <MudIcon
-            Size="Size.Small"
-            Icon="CurrentIcon"
-            Color="CurrentColor"
-        />
+<MudMenuItem OnClick="@(() => NavigationManager.NavigateTo(Href))" Class="pa-2 rounded">
+  <MudStack Row="true">
+    <MudIcon Size="Size.Small" Icon="CurrentIcon" Color="CurrentColor" />
 
-        <MudStack
-            Justify="Justify.FlexStart"
-            AlignItems="AlignItems.Start"
-            Spacing="1"
-            Style="max-width: 300px"
-        >
-            <MudText
-                Typo="Typo.body1"
-                Color="CurrentColor"
-            >
-                @Title
-            </MudText>
-            
-            <MudText
-                Typo="Typo.body2"
-                Class="mud-text-disabled"
-            >
-                @Description
-            </MudText>
-        </MudStack>
+    <MudStack Justify="Justify.FlexStart" AlignItems="AlignItems.Start" Spacing="1" Style="max-width: 300px">
+      <MudText Typo="Typo.body1" Color="CurrentColor">
+        @Title
+      </MudText>
 
-        <MudStack Class="ml-auto">
-            <MudIconButton
-                Size="Size.Small"
-                Variant="Variant.Outlined"
-                Icon="@Icons.Material.Rounded.DoneAll"
-                OnClick="OnRemove"
-                Class="pa-0 clear"
-            />    
-        </MudStack>
+      <MudText Typo="Typo.body2" Class="mud-text-disabled">
+        @Description
+      </MudText>
     </MudStack>
+
+    <MudStack Class="ml-auto">
+      <MudIconButton Size="Size.Small" Variant="Variant.Outlined" Icon="@Icons.Material.Rounded.DoneAll"
+                     OnClick="OnRemove" Class="pa-0 clear" />
+    </MudStack>
+  </MudStack>
 </MudMenuItem>
 
-@code {
-    [Parameter]
-    public required string Href { get; set; }
+@code
+{
+  [Parameter]
+  public required string Href { get; set; }
 
-    [Parameter]
-    public required string Title { get; set; }
+  [Parameter]
+  public required string Title { get; set; }
 
-    [Parameter]
-    public required string Description { get; set; }
+  [Parameter]
+  public required string Description { get; set; }
 
-    [Parameter]
-    public required Severity Severity { get; set; }
+  [Parameter]
+  public required Severity Severity { get; set; }
 
-    [Parameter]
-    public EventCallback OnRemove { get; set; }
+  [Parameter]
+  public EventCallback OnRemove { get; set; }
 
-    public string CurrentIcon => Severity switch
-    {
-        Severity.Normal => Icons.Custom.Brands.MudBlazor,
-        Severity.Info => Icons.Material.Rounded.Info,
-        Severity.Success => Icons.Material.Rounded.CheckCircle,
-        Severity.Warning => Icons.Material.Rounded.Warning,
-        Severity.Error => Icons.Material.Rounded.Error,
-        _ => Icons.Custom.Brands.MudBlazor
-    };
+  public string CurrentIcon => Severity switch
+  {
+    Severity.Normal => Icons.Custom.Brands.MudBlazor,
+    Severity.Info => Icons.Material.Rounded.Info,
+    Severity.Success => Icons.Material.Rounded.CheckCircle,
+    Severity.Warning => Icons.Material.Rounded.Warning,
+    Severity.Error => Icons.Material.Rounded.Error,
+    _ => Icons.Custom.Brands.MudBlazor
+  };
 
-    public Color CurrentColor => Severity switch
-    {
-        Severity.Normal => Color.Default,
-        Severity.Info => Color.Info,
-        Severity.Success => Color.Success,
-        Severity.Warning => Color.Warning,
-        Severity.Error => Color.Error,
-        _ => Color.Default
-    };
+  public Color CurrentColor => Severity switch
+  {
+    Severity.Normal => Color.Default,
+    Severity.Info => Color.Info,
+    Severity.Success => Color.Success,
+    Severity.Warning => Color.Warning,
+    Severity.Error => Color.Error,
+    _ => Color.Default
+  };
 
-    protected override void OnInitialized()
-    {
-        Console.WriteLine(Href);
-    }
+  protected override void OnInitialized()
+  {
+    Console.WriteLine(Href);
+  }
 }

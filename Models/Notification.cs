@@ -2,7 +2,12 @@
 
 namespace DemoApp.Models;
 
-public class Notification(string href, string title, string description, Severity severity)
+public class Notification(
+    string href,
+    string title,
+    string description,
+    Severity severity
+)
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Href { get; set; } = href;

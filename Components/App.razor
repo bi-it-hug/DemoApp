@@ -1,104 +1,108 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <base href="/" />
-        <ResourcePreloader />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="@Assets["_content/MudBlazor/MudBlazor.min.css"]" />
-        <link rel="stylesheet" href="@Assets["DemoApp.styles.css"]" />
-        <ImportMap />
-        <link rel="icon" type="image/ico" href="favicon.ico" />
-        <HeadOutlet @rendermode="InteractiveServer" />
-        <style>
-            ::selection {
-                background-color: var(--mud-palette-text-primary);
-                color: var(--mud-palette-background);
-            }
 
-            .invert {
-                background-color: var(--mud-palette-text-primary);
-                color: var(--mud-palette-background);
-            }
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<base href="/" />
+	<ResourcePreloader />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:ital,wght@0,100..900;1,100..900&display=swap"
+				rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap"
+				rel="stylesheet">
+	<link rel="stylesheet" href="@Assets["_content/MudBlazor/MudBlazor.min.css"]" />
+	<link rel="stylesheet" href="@Assets["DemoApp.styles.css"]" />
+	<ImportMap />
+	<link rel="icon" type="image/ico" href="favicon.ico" />
+	<HeadOutlet @rendermode="InteractiveServer" />
+	<style>
+			::selection {
+				background-color: var(--mud-palette-text-primary);
+				color: var(--mud-palette-background);
+			}
 
-            .mud-list-item-text {
-                margin: 0 !important;
-            }
+			.invert {
+				background-color: var(--mud-palette-text-primary);
+				color: var(--mud-palette-background);
+			}
 
-            .mud-menu-list {
-                padding: 0px !important;
-            }
+			.mud-list-item-text {
+				margin: 0 !important;
+			}
 
-            .mud-menu-item-text {
-                margin: 0 !important;
-            }
+			.mud-menu-list {
+				padding: 0px !important;
+			}
 
-            .mud-menu-item-icon {
-                width: 1.125rem !important;
-                height: 1.125rem !important;
-                margin-right: 0.5rem !important;
-            }
+			.mud-menu-item-text {
+				margin: 0 !important;
+			}
 
-            .mud-nav-link {
-                margin: 0 !important;
-                padding: 6px !important;
-            }
+			.mud-menu-item-icon {
+				width: 1.125rem !important;
+				height: 1.125rem !important;
+				margin-right: 0.5rem !important;
+			}
 
-            .mud-nav-link-text {
-                margin-left: 8px !important;
-                color: var(--mud-palette-text-disabled);
-            }
+			.mud-nav-link {
+				margin: 0 !important;
+				padding: 6px !important;
+			}
 
-            .mud-nav-link-icon {
-                width: 1.25rem !important;
-                height: 1.25rem !important;
-                color: var(--mud-palette-text-disabled);
-            }
+			.mud-nav-link-text {
+				margin-left: 8px !important;
+				color: var(--mud-palette-text-disabled);
+			}
 
-            .clear .mud-icon-root {
-                padding: 2px;
-            }
+			.mud-nav-link-icon {
+				width: 1.25rem !important;
+				height: 1.25rem !important;
+				color: var(--mud-palette-text-disabled);
+			}
 
-            .mud-card-header-actions {
-                margin: 0 !important;
-            }
+			.clear .mud-icon-root {
+				padding: 2px;
+			}
 
-            /* Custom Button Sizes */
+			.mud-card-header-actions {
+				margin: 0 !important;
+			}
 
-            .mud-icon-button-size-small,
-            .mud-button-outlined-size-small {
-                height: 28px;
-            }
+			/* Custom Button Sizes */
 
-            .mud-icon-button-size-small {
-                width: 28px;
-            }
+			.mud-icon-button-size-small,
+			.mud-button-outlined-size-small {
+				height: 28px;
+			}
 
-            .mud-icon-size-small,
-            .mud-icon-size-medium {
-                width: 16px;
-                height: 16px;
-            }
+			.mud-icon-button-size-small {
+				width: 28px;
+			}
 
-            .mud-button-outlined-size-medium {
-                padding-block: 6px !important;
-                padding-inline: 12px !important;
-            }
+			.mud-icon-size-small,
+			.mud-icon-size-medium {
+				width: 16px;
+				height: 16px;
+			}
 
-            .mud-button-outlined-size-small.mud-icon-button {
-                padding: 5px !important;
-            }
-        </style>
-    </head>
+			.mud-button-outlined-size-medium {
+				padding-block: 6px !important;
+				padding-inline: 12px !important;
+			}
 
-    <body style="height: 100vh">
-        <Routes @rendermode="InteractiveServer" />
-        <ReconnectModal />
-        <script src="@Assets["_framework/blazor.web.js"]"></script>
-        <script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
-    </body>
+			.mud-button-outlined-size-small.mud-icon-button {
+				padding: 5px !important;
+			}
+	</style>
+</head>
+
+<body style="height: 100vh">
+	<Routes @rendermode="InteractiveServer" />
+	<ReconnectModal />
+	<script src="@Assets["_framework/blazor.web.js"]"></script>
+	<script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
+</body>
+
 </html>

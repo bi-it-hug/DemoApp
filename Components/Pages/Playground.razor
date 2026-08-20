@@ -3,23 +3,18 @@
 
 @page "/playground"
 
-<MudContainer
-    MaxWidth="MaxWidth.ExtraExtraLarge"
-    Class="d-flex flex-column justify-center align-center mud-height-full px-6 pt-0 pb-6"
-    Gutters="false"
->
-    <MudButton
-        OnClick="OpenAlertDialogAsync"
-        Variant="Variant.Outlined"
-    >
-        Alert Dialog
-    </MudButton>
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge"
+							Class="d-flex flex-column justify-center align-center mud-height-full px-6 pt-0 pb-6" Gutters="false">
+	<MudButton OnClick="OpenAlertDialogAsync" Variant="Variant.Outlined">
+		Alert Dialog
+	</MudButton>
 </MudContainer>
 
-@code {
-    private Task OpenAlertDialogAsync()
-    {
-        DialogOptions Options = new() { BackdropClick = false };
-        return DialogService.ShowAsync<AlertDialog>("Alert", Options);
-    }
+@code
+{
+	private Task OpenAlertDialogAsync()
+	{
+		DialogOptions Options = new() { BackdropClick = false };
+		return DialogService.ShowAsync<AlertDialog>("Alert", Options);
+	}
 }

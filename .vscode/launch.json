@@ -4,38 +4,18 @@
         {
             "name": "DemoApp (http)",
             "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net10.0/DemoApp.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5138"
-            }
+            "request": "attach",
+            "processName": "DemoApp",
+            "preLaunchTask": "watch (http)",
+            "postDebugTask": "terminate-watch"
         },
         {
             "name": "DemoApp (https)",
             "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net10.0/DemoApp.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "https://localhost:7243;http://localhost:5138"
-            }
+            "request": "attach",
+            "processName": "DemoApp",
+            "preLaunchTask": "watch (https)",
+            "postDebugTask": "terminate-watch"
         }
     ]
 }

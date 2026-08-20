@@ -1,21 +1,105 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/DemoApp.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"build",
+				"${workspaceFolder}/DemoApp.csproj",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary;ForceNoAlign"
+			],
+			"problemMatcher": "$msCompile",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "watch (http)",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"watch",
+				"--non-interactive",
+				"--project",
+				"${workspaceFolder}/DemoApp.csproj",
+				"--launch-profile",
+				"http"
+			],
+			"isBackground": true,
+			"problemMatcher": {
+				"base": "$msCompile",
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "dotnet watch",
+					"endsPattern": "Now listening on:"
+				}
+			},
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"ASPNETCORE_ENVIRONMENT": "Development"
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": false
+			}
+		},
+		{
+			"label": "watch (https)",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"watch",
+				"--non-interactive",
+				"--project",
+				"${workspaceFolder}/DemoApp.csproj",
+				"--launch-profile",
+				"https"
+			],
+			"isBackground": true,
+			"problemMatcher": {
+				"base": "$msCompile",
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "dotnet watch",
+					"endsPattern": "Now listening on:"
+				}
+			},
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"ASPNETCORE_ENVIRONMENT": "Development"
+				}
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"focus": false
+			}
+		},
+		{
+			"label": "terminate-watch",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -and $_.CommandLine -like '*watch*' -and $_.CommandLine -like '*DemoApp.csproj*' } | ForEach-Object { & taskkill.exe /F /T /PID $_.ProcessId | Out-Null }; Get-Process -Name DemoApp -ErrorAction SilentlyContinue | Stop-Process -Force"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "silent",
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true,
+				"close": true
+			}
+		}
+	]
 }

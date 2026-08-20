@@ -16,7 +16,7 @@ Instead of writing raw HTML/CSS for every control, you compose MudBlazor compone
 
 ```razor
 <MudButton Variant="Variant.Filled" Color="Color.Primary">
-    Click me
+	Click me
 </MudButton>
 ```
 
@@ -24,15 +24,15 @@ MudBlazor is similar in spirit to libraries like Material UI (React) or Vuetify 
 
 ### Concepts you will see in this project
 
-| Concept                 | What it means                                                 | Example in this app                          |
-| ----------------------- | ------------------------------------------------------------- | -------------------------------------------- |
-| **Components**          | Reusable UI pieces (`MudButton`, `MudCard`, `MudGrid`, …)     | `SampleCard.razor`, Home page grid           |
-| **Providers**           | App-wide services MudBlazor needs (theme, dialogs, snackbars) | `MainLayout.razor`                           |
-| **Theme**               | Colors, typography, light/dark mode                           | `Theme/Theme.cs`, `ThemeSwitch.razor`        |
-| **Layout**              | App shell: app bar, drawer, main content                      | `MainLayout.razor`                           |
-| **Dialogs / Snackbars** | Overlays and toast messages                                   | Playground page, notifications               |
-| **Charts**              | Timeseries line chart with custom tooltip                     | `TimeSeriesChart.razor`                      |
-| **HTTP services**       | Fetch JSON from an external API                               | `CoinGeckoService.cs`                        |
+| Concept                 | What it means                                                 | Example in this app                   |
+| ----------------------- | ------------------------------------------------------------- | ------------------------------------- |
+| **Components**          | Reusable UI pieces (`MudButton`, `MudCard`, `MudGrid`, …)     | `SampleCard.razor`, Home page grid    |
+| **Providers**           | App-wide services MudBlazor needs (theme, dialogs, snackbars) | `MainLayout.razor`                    |
+| **Theme**               | Colors, typography, light/dark mode                           | `Theme/Theme.cs`, `ThemeSwitch.razor` |
+| **Layout**              | App shell: app bar, drawer, main content                      | `MainLayout.razor`                    |
+| **Dialogs / Snackbars** | Overlays and toast messages                                   | Playground page, notifications        |
+| **Charts**              | Timeseries line chart with custom tooltip                     | `TimeSeriesChart.razor`               |
+| **HTTP services**       | Fetch JSON from an external API                               | `CoinGeckoService.cs`                 |
 
 Official docs: [https://mudblazor.com/docs/overview](https://mudblazor.com/docs/overview)
 
@@ -86,10 +86,10 @@ The Home chart needs internet access for CoinGecko. If the request fails (rate l
 
 ## Pages to explore
 
-| Route         | File                                | What to notice                                                                 |
-| ------------- | ----------------------------------- | ------------------------------------------------------------------------------ |
-| `/`           | `Components/Pages/Home.razor`       | `MudGrid` layout, `SampleCard`, live CoinGecko chart, time-range `MudSelect`   |
-| `/playground` | `Components/Pages/Playground.razor` | Opening a custom `AlertDialog` with `IDialogService`                           |
+| Route         | File                                | What to notice                                                               |
+| ------------- | ----------------------------------- | ---------------------------------------------------------------------------- |
+| `/`           | `Components/Pages/Home.razor`       | `MudGrid` layout, `SampleCard`, live CoinGecko chart, time-range `MudSelect` |
+| `/playground` | `Components/Pages/Playground.razor` | Opening a custom `AlertDialog` with `IDialogService`                         |
 
 Also look at the shell UI in `Components/Layout/MainLayout.razor`: app bar, drawer, breadcrumbs, theme provider, snackbar/dialog providers.
 

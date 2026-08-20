@@ -10,7 +10,6 @@ public abstract class StateComponent : ComponentBase, IDisposable
     [Inject]
     protected NotificationService NotificationService { get; set; } = default!;
 
-
     protected override void OnInitialized()
     {
         AppStateService.Changed += OnStateChanged;

@@ -7,7 +7,7 @@ public enum TimeRange
     Day = 1,
     Week = 7,
     Month = 30,
-    Year = 365
+    Year = 365,
 }
 
 public sealed record TimeRangeConfig(
@@ -16,7 +16,10 @@ public sealed record TimeRangeConfig(
     IReadOnlyDictionary<Breakpoint, TimeSpan> Spacing
 )
 {
-    public TimeSpan GetSpacing(Breakpoint breakpoint) => Spacing.TryGetValue(breakpoint, out var spacing) ? spacing : Spacing[Breakpoint.Xxl];
+    public TimeSpan GetSpacing(Breakpoint breakpoint) =>
+        Spacing.TryGetValue(breakpoint, out var spacing)
+            ? spacing
+            : Spacing[Breakpoint.Xxl];
 }
 
 public static class TimeRanges
@@ -33,7 +36,7 @@ public static class TimeRanges
                 [Breakpoint.Lg] = TimeSpan.FromHours(1),
                 [Breakpoint.Md] = TimeSpan.FromHours(2),
                 [Breakpoint.Sm] = TimeSpan.FromHours(4),
-                [Breakpoint.Xs] = TimeSpan.FromHours(6)
+                [Breakpoint.Xs] = TimeSpan.FromHours(6),
             }
         ),
         [TimeRange.Week] = new(
@@ -46,7 +49,7 @@ public static class TimeRanges
                 [Breakpoint.Lg] = TimeSpan.FromDays(1),
                 [Breakpoint.Md] = TimeSpan.FromDays(1),
                 [Breakpoint.Sm] = TimeSpan.FromDays(2),
-                [Breakpoint.Xs] = TimeSpan.FromDays(2)
+                [Breakpoint.Xs] = TimeSpan.FromDays(2),
             }
         ),
         [TimeRange.Month] = new(
@@ -59,7 +62,7 @@ public static class TimeRanges
                 [Breakpoint.Lg] = TimeSpan.FromDays(3),
                 [Breakpoint.Md] = TimeSpan.FromDays(4),
                 [Breakpoint.Sm] = TimeSpan.FromDays(5),
-                [Breakpoint.Xs] = TimeSpan.FromDays(6)
+                [Breakpoint.Xs] = TimeSpan.FromDays(6),
             }
         ),
         [TimeRange.Year] = new(
@@ -72,8 +75,8 @@ public static class TimeRanges
                 [Breakpoint.Lg] = TimeSpan.FromDays(30),
                 [Breakpoint.Md] = TimeSpan.FromDays(60),
                 [Breakpoint.Sm] = TimeSpan.FromDays(90),
-                [Breakpoint.Xs] = TimeSpan.FromDays(120)
+                [Breakpoint.Xs] = TimeSpan.FromDays(120),
             }
-        )
+        ),
     };
 }

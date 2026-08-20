@@ -1,49 +1,43 @@
 @inject NavigationManager NavigationManager
 
-<MudBreadcrumbs
-    Items="Items"
-    Class="ml-2"
->
-    <SeparatorTemplate>
-        <MudIcon
-            Icon="@Icons.Material.Rounded.ChevronRight"
-            Size="Size.Small"
-            Style="opacity: 50%"
-        />
-    </SeparatorTemplate>
+<MudBreadcrumbs Items="Items" Class="ml-2">
+	<SeparatorTemplate>
+		<MudIcon Icon="@Icons.Material.Rounded.ChevronRight" Size="Size.Small" Style="opacity: 50%" />
+	</SeparatorTemplate>
 </MudBreadcrumbs>
 
-@code {
-    private List<BreadcrumbItem> Items = [];
+@code
+{
+	private List<BreadcrumbItem> Items = [];
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        NavigationManager.LocationChanged += OnLocationChanged;
-        UpdateBreadcrumbs(NavigationManager.Uri);
-    }
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		NavigationManager.LocationChanged += OnLocationChanged;
+		UpdateBreadcrumbs(NavigationManager.Uri);
+	}
 
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-    {
-        UpdateBreadcrumbs(e.Location);
-        _ = InvokeAsync(StateHasChanged);
-    }
+	private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+	{
+		UpdateBreadcrumbs(e.Location);
+		_ = InvokeAsync(StateHasChanged);
+	}
 
-    private void UpdateBreadcrumbs(string uri)
-    {
-        var relativePath = NavigationManager.ToBaseRelativePath(uri);
-        var currentPage = string.IsNullOrWhiteSpace(relativePath) ? "Dashboard" : ToTitleCase(relativePath);
+	private void UpdateBreadcrumbs(string uri)
+	{
+		var relativePath = NavigationManager.ToBaseRelativePath(uri);
+		var currentPage = string.IsNullOrWhiteSpace(relativePath) ? "Dashboard" : ToTitleCase(relativePath);
 
-        Items =
-        [
-            new BreadcrumbItem("Demo App", href: relativePath),
-            new BreadcrumbItem(currentPage, href: relativePath),
-        ];
-    }
+		Items =
+		[
+			new BreadcrumbItem("Demo App", href: relativePath),
+			new BreadcrumbItem(currentPage, href: relativePath),
+		];
+	}
 
-    public override void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
-        base.Dispose();
-    }
+	public override void Dispose()
+	{
+		NavigationManager.LocationChanged -= OnLocationChanged;
+		base.Dispose();
+	}
 }
